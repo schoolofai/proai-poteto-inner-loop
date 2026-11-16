@@ -1,0 +1,72 @@
+
+> harbor-desk@0.0.0 test
+> vitest run src/sidebar-behavior.test.tsx
+
+
+ RUN  v5.1.0 /tmp/poteto-series-run-b
+
+ ❯ src/sidebar-behavior.test.tsx (3 tests | 3 failed) 87ms
+   ❯ sidebar visible state without waiting for timers (3)
+     × highlights the initial folder and its unread badge immediately 67ms
+     × keeps the highlight, accessible selection, and panel in sync on every click 16ms
+     × updates badge visibility and text immediately when counts change 3ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/sidebar-behavior.test.tsx > sidebar visible state without waiting for timers > highlights the initial folder and its unread badge immediately
+Error: expect(element).toHaveClass("is-active")
+
+Expected the element to have class:
+  is-active
+Received:
+  sidebar-item
+ ❯ src/sidebar-behavior.test.tsx:19:19
+     17|
+     18|     const inbox = screen.getByRole('button', { name: /^Inbox/ })
+     19|     expect(inbox).toHaveClass('is-active')
+       |                   ^
+     20|     expect(inbox).toHaveAttribute('aria-current', 'page')
+     21|     expect(within(inbox).getByText('3')).toHaveClass('has-unread')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  src/sidebar-behavior.test.tsx > sidebar visible state without waiting for timers > keeps the highlight, accessible selection, and panel in sync on every click
+Error: expect(element).toHaveClass("is-active")
+
+Expected the element to have class:
+  is-active
+Received:
+  sidebar-item
+ ❯ src/sidebar-behavior.test.tsx:36:26
+     34|       for (const folder of screen.getAllByRole('button')) {
+     35|         if (folder === button) {
+     36|           expect(folder).toHaveClass('is-active')
+       |                          ^
+     37|           expect(folder).toHaveAttribute('aria-current', 'page')
+     38|         } else {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  src/sidebar-behavior.test.tsx > sidebar visible state without waiting for timers > updates badge visibility and text immediately when counts change
+Error: expect(element).toHaveClass("has-unread")
+
+Expected the element to have class:
+  has-unread
+Received:
+  badge
+ ❯ src/sidebar-behavior.test.tsx:52:36
+     50|       const badge = screen.getByTestId('unread-badge')
+     51|       expect(badge.textContent).toBe(count === 0 ? '' : count > 9 ? '9…
+     52|       if (count > 0) expect(badge).toHaveClass('has-unread')
+       |                                    ^
+     53|       else expect(badge).not.toHaveClass('has-unread')
+     54|     }
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed (3)
+   Start at  23:26:24
+   Duration  675ms (environment 61%, tests 15%, import 15%, transform 8%, worker 1%)
+

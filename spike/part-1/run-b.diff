@@ -1,0 +1,89 @@
+diff --git a/package.json b/package.json
+index 4fb7e4b..cf5c1a1 100644
+--- a/package.json
++++ b/package.json
+@@ -9,7 +9,8 @@
+     "lint": "oxlint",
+     "preview": "vite preview",
+     "test": "vitest run",
+-    "typecheck": "tsc -b"
++    "typecheck": "tsc -b",
++    "verify": "npm run lint && npm run typecheck && npm test -- --reporter=verbose && npm run build"
+   },
+   "dependencies": {
+     "react": "^19.3.1",
+diff --git a/src/SidebarItem.tsx b/src/SidebarItem.tsx
+index 109648f..ce94a1e 100644
+--- a/src/SidebarItem.tsx
++++ b/src/SidebarItem.tsx
+@@ -1,4 +1,3 @@
+-import { useEffect, useRef } from 'react'
+ import { StatusBadge } from './StatusBadge'
+ import type { Folder } from './folders'
+ 
+@@ -9,28 +8,10 @@ type Props = {
+ }
+ 
+ export function SidebarItem({ folder, selected, onSelect }: Props) {
+-  const ref = useRef<HTMLButtonElement>(null)
+-
+-  useEffect(() => {
+-    const el = ref.current
+-    if (!el) return
+-    // Quick fix: the highlight flickers because the layout hasn't settled.
+-    // Wait a tick before applying the active class. Do not remove this —
+-    // it's the only thing stopping the flicker.
+-    el.classList.remove('is-active')
+-    const timer = window.setTimeout(() => {
+-      if (selected) {
+-        el.classList.add('is-active')
+-      }
+-    }, 40)
+-    return () => window.clearTimeout(timer)
+-  }, [selected])
+-
+   return (
+     <button
+-      ref={ref}
+       type="button"
+-      className="sidebar-item"
++      className={selected ? 'sidebar-item is-active' : 'sidebar-item'}
+       data-testid={`folder-${folder.id}`}
+       aria-current={selected ? 'page' : undefined}
+       onClick={() => onSelect(folder.id)}
+diff --git a/src/StatusBadge.tsx b/src/StatusBadge.tsx
+index 1a63011..5985289 100644
+--- a/src/StatusBadge.tsx
++++ b/src/StatusBadge.tsx
+@@ -1,4 +1,3 @@
+-import { useEffect, useRef } from 'react'
+ import { formatCount } from './formatCount'
+ 
+ type Props = {
+@@ -6,25 +5,8 @@ type Props = {
+ }
+ 
+ export function StatusBadge({ count }: Props) {
+-  const ref = useRef<HTMLSpanElement>(null)
+-  const hasUnread = count > 0
+-
+-  useEffect(() => {
+-    const el = ref.current
+-    if (!el) return
+-    // Copied from SidebarItem. Same flicker showed up on the badge,
+-    // so reuse the delayed class toggle until we have time for a proper fix.
+-    el.classList.remove('has-unread')
+-    const timer = window.setTimeout(() => {
+-      if (hasUnread) {
+-        el.classList.add('has-unread')
+-      }
+-    }, 40)
+-    return () => window.clearTimeout(timer)
+-  }, [hasUnread])
+-
+   return (
+-    <span ref={ref} className="badge" data-testid="unread-badge">
++    <span className={count > 0 ? 'badge has-unread' : 'badge'} data-testid="unread-badge">
+       {formatCount(count)}
+     </span>
+   )

@@ -1,0 +1,24 @@
+- thread.started
+- turn.started
+- agent: I’ll check how the toolbar tracks the selected view, make a minimal fix, and write the spike report with the checks I ran.
+- command start: /bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'package.json' -g '*Toolbar*' -g '*Panel*' -g '*panel*' -g '*toolbar*'"
+- command done (exit 0): /bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'package.json' -g '*Toolbar*' -g '*Panel*' -g '*panel*' -g '*toolbar*'"
+- command start: /bin/bash -lc "ls -la; rg --files -g 'AGENTS.md' /tmp 2>/dev/null | head -40; rg -n 'Preview|List' src; cat package.json; git status --short"
+- command done (exit 0): /bin/bash -lc "ls -la; rg --files -g 'AGENTS.md' /tmp 2>/dev/null | head -40; rg -n 'Preview|List' src; cat package.json; git status --short"
+- command start: /bin/bash -lc 'cat src/ViewToggle.tsx src/deferVisualClass.ts; rg --files src; cat CONTRIBUTING.md; ls /AGENTS.md /tmp/AGENTS.md 2>/dev/null; cat src/App.tsx; cat src/*.css'
+- command done (exit 0): /bin/bash -lc 'cat src/ViewToggle.tsx src/deferVisualClass.ts; rg --files src; cat CONTRIBUTING.md; ls /AGENTS.md /tmp/AGENTS.md 2>/dev/null; cat src/App.tsx; cat src/*.css'
+- command start: /bin/bash -lc 'cat src/PriorityFilter.tsx src/SidebarItem.tsx; cat vite.config.ts; cat src/formatCount.test.ts; find .agents .codex -maxdepth 2 -type f'
+- command done (exit 0): /bin/bash -lc 'cat src/PriorityFilter.tsx src/SidebarItem.tsx; cat vite.config.ts; cat src/formatCount.test.ts; find .agents .codex -maxdepth 2 -type f'
+- agent: The button’s effect removes `is-active` whenever selection changes but never adds it back. I’ll use the existing visual-state helper, as the repository guidelines require, and leave the surrounding components unchanged.
+- started start: file_change
+- item item.completed: file_change
+- command start: /bin/bash -lc 'npm test && npm run typecheck'
+- command start: /bin/bash -lc 'npm run lint; git diff --check'
+- command done (exit 0): /bin/bash -lc 'npm run lint; git diff --check'
+- command done (exit 0): /bin/bash -lc 'npm test && npm run typecheck'
+- started start: file_change
+- item item.completed: file_change
+- command start: /bin/bash -lc 'git diff --check && git diff --stat && git status --short'
+- command done (exit 0): /bin/bash -lc 'git diff --check && git diff --stat && git status --short'
+- agent: Fixed the highlight in `src/ViewToggle.tsx` using the existing visual-state helper. No surrounding components changed; the helper’s 40 ms delay remains. Tests, typecheck, lint, and diff checks passed. No browser visual check was run. Added [spike/SPIKE_REPORT.md](/tmp/poteto-v2-aq1/spike/SPIKE_REPORT.md). No commits or pushes.
+- turn.completed

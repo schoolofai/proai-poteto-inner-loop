@@ -1,0 +1,36 @@
+
+> harbor-desk@0.0.0 test
+> vitest run
+
+
+ RUN  v5.1.0 /tmp/poteto-v2-b3
+
+ ❯ src/ViewToggle.test.tsx (1 test | 1 failed) 66ms
+   × keeps the selected view highlighted immediately and after pending work 65ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ViewToggle.test.tsx > keeps the selected view highlighted immediately and after pending work
+Error: expect(element).toHaveClass("is-active")
+
+Expected the element to have class:
+  is-active
+Received:
+  view-btn
+ ❯ expectView src/ViewToggle.test.tsx:19:22
+     17|
+     18|   function expectView(selected: HTMLElement, other: HTMLElement, copy:…
+     19|     expect(selected).toHaveClass('is-active')
+       |                      ^
+     20|     expect(selected).toHaveAttribute('aria-pressed', 'true')
+     21|     expect(other).not.toHaveClass('is-active')
+ ❯ src/ViewToggle.test.tsx:26:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 2 passed (3)
+   Start at  23:51:42
+   Duration  1.03s (environment 72%, transform 13%, import 10%, tests 4%)
+

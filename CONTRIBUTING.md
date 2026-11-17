@@ -1,6 +1,6 @@
 # Contributing to Harbor Desk
 
-This is a small private starter. Please keep changes tight and consistent
+This is a small demo starter. Please keep changes tight and consistent
 with the files already in `src/`.
 
 ## Visual state classes

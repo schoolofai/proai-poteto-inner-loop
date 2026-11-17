@@ -1,0 +1,19 @@
+- thread.started
+- turn.started
+- agent: I’ll trace the toolbar highlight, make the smallest fix at its source, and run the project’s checks. I’ll also save the verification results and write `spike/SPIKE_REPORT.md`.
+- command start: /bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'package.json' -g '*Toolbar*' -g '*Panel*' -g '*test*' -g '*spec*' -g '*config*' -g '*lock*'"
+- command done (exit 0): /bin/bash -lc "pwd && rg --files -g 'AGENTS.md' -g 'package.json' -g '*Toolbar*' -g '*Panel*' -g '*test*' -g '*spec*' -g '*config*' -g '*lock*'"
+- command start: /bin/bash -lc 'cat CONTRIBUTING.md src/ViewToggle.tsx src/deferVisualClass.ts src/App.tsx src/formatCount.test.ts vite.config.ts .oxlintrc.json && cat src/styles.css && git status --short'
+- command done (exit 0): /bin/bash -lc 'cat CONTRIBUTING.md src/ViewToggle.tsx src/deferVisualClass.ts src/App.tsx src/formatCount.test.ts vite.config.ts .oxlintrc.json && cat src/styles.css && git status --short'
+- agent: The button’s effect removes `is-active` whenever selection changes, but nothing adds it back. I’ll make the class follow the existing `selected` prop directly and add a rendered-app test for repeated switches, including after timers run.
+- command start: /bin/bash -lc "mkdir -p spike cat > src/ViewToggle.test.tsx <<'EOF' import { cleanup, fireEvent, render, screen } from '@testing-library/react' import { afterEach, expect, it, vi } from 'vitest' import { App } from './App' afterEach(() => {…
+- command done (exit 0): /bin/bash -lc "mkdir -p spike cat > src/ViewToggle.test.tsx <<'EOF' import { cleanup, fireEvent, render, screen } from '@testing-library/react' import { afterEach, expect, it, vi } from 'vitest' import { App } from './App' afterEach(() => {…
+- command start: /bin/bash -lc "python3 - <<'PY' from pathlib import Path p=Path('src/ViewToggle.tsx') s=p.read_text().replace(\"import { useEffect, useRef } from 'react'\\n\\n\", '') a=s.index(' const ref = useRef<HTMLButtonElement>(null)') b=s.index(' ret…
+- command done (exit 0): /bin/bash -lc "python3 - <<'PY' from pathlib import Path p=Path('src/ViewToggle.tsx') s=p.read_text().replace(\"import { useEffect, useRef } from 'react'\\n\\n\", '') a=s.index(' const ref = useRef<HTMLButtonElement>(null)') b=s.index(' ret…
+- command start: /bin/bash -lc 'npm run typecheck && npm run lint && npm run build'
+- command done (exit 0): /bin/bash -lc 'npm run typecheck && npm run lint && npm run build'
+- agent: The regression test failed before the fix and now passes: the selected button stays highlighted through repeated switches and timer execution. Typecheck, lint, and the production build also pass. The component change only removes the effect/ref and derives the class from `selected`.
+- command start: /bin/bash -lc "cat > spike/SPIKE_REPORT.md <<'EOF' # List / Preview highlight fix ## Change and cause "'`ViewButton` removed `is-active` in an effect whenever selection changed and never restored it. Its `aria-pressed` state was correct, bu…
+- command done (exit 0): /bin/bash -lc "cat > spike/SPIKE_REPORT.md <<'EOF' # List / Preview highlight fix ## Change and cause "'`ViewButton` removed `is-active` in an effect whenever selection changed and never restored it. Its `aria-pressed` state was correct, bu…
+- agent: Fixed the highlight by deriving its class directly from selection, removing the effect that cleared it. Added a regression test; saved failing-before and passing-after output. Tests, typecheck, lint, build, and diff checks pass. Report: [spike/SPIKE_REPORT.md](/tmp/poteto-v2-bq1/spike/SPIKE_REPORT.md).
+- turn.completed

@@ -1,0 +1,38 @@
+
+> harbor-desk@0.0.0 test
+> vitest run
+
+
+ RUN  v5.1.0 /tmp/poteto-v2-bq3
+
+ ❯ src/ViewToggle.test.tsx (1 test | 1 failed) 69ms
+   × keeps the highlight on the selected view through switches and later renders 68ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ViewToggle.test.tsx > keeps the highlight on the selected view through switches and later renders
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ expectSelected src/ViewToggle.test.tsx:18:54
+     16|
+     17|   function expectSelected(selected: HTMLElement, other: HTMLElement) {
+     18|     expect(selected.classList.contains('is-active')).toBe(true)
+       |                                                      ^
+     19|     expect(selected.getAttribute('aria-pressed')).toBe('true')
+     20|     expect(other.classList.contains('is-active')).toBe(false)
+ ❯ src/ViewToggle.test.tsx:24:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 2 passed (3)
+   Start at  23:59:55
+   Duration  642ms (environment 71%, transform 11%, import 9%, tests 8%, worker 1%)
+

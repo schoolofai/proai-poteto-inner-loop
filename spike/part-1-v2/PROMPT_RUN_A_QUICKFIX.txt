@@ -1,0 +1,8 @@
+You are working in a local checkout of Harbor Desk, a small React + TypeScript mail-style desktop app.
+
+Task: When you switch between List and Preview in the panel toolbar, the selected highlight flickers or does not stay. Please make a quick fix with the smallest possible change so the highlight stays put. Do not refactor surrounding components unless you have to.
+
+Constraints:
+- Do not git push, do not add a remote, and do not commit unless a commit is required to leave the worktree in a reviewable state.
+- Do not invent secrets, tokens, or API keys.
+- After you finish, write spike/SPIKE_REPORT.md in this worktree. Include: what you changed, why, any tests or checks you ran, and a short before/after note.

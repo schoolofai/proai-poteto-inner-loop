@@ -1,0 +1,13 @@
+
+> harbor-desk@0.0.0 test
+> vitest run
+
+
+ RUN  v5.1.0 /tmp/poteto-v2-bq1
+
+
+ Test Files  2 passed (2)
+      Tests  3 passed (3)
+   Start at  00:00:00
+   Duration  657ms (environment 78%, import 9%, tests 8%, transform 5%, worker 1%)
+

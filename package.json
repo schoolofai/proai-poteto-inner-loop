@@ -31,5 +31,5 @@
     "vite": "^8.3.6",
     "vitest": "^5.1.0"
   },
-  "description": "Private local starter for the ProAI Clips poteto series Part 1 spike. Do not publish."
+  "description": "Harbor Desk: starter repo for ProAI Clips, Harden the Inner Loop First (poteto series Part 1)."
 }

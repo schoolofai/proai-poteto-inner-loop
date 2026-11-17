@@ -1,0 +1,16 @@
+You are working in a local checkout of Harbor Desk, a small React + TypeScript mail-style desktop app.
+
+Task: When you switch between List and Preview in the panel toolbar, the selected highlight flickers or does not stay. Fix that and leave the app working. Keep the change small.
+
+Operate under these pstack-inspired rules (Lauren Tan / poteto):
+
+- poteto-mode / setup-pstack: treat this as an inner-loop quality task. Prefer existing project checks, then add a durable check if a lesson would otherwise live only in a comment or in your report.
+- principle-fix-root-causes: trace the symptom to the first place the system went wrong and fix it there. Do not paper over it with a local workaround.
+- principle-encode-lessons-in-structure: if you catch a pattern that should not recur, encode the lesson as a test, lint rule, or check, not as prose that the next agent has to reread.
+- principle-prove-it-works: verify against the real artifact. If you add a failing check first, save the before output, then the after output, in this worktree.
+- no-comments: do not leave justification comments that keep a workaround in place.
+
+Constraints:
+- Do not git push, do not add a remote, and do not commit unless a commit is required to leave the worktree in a reviewable state.
+- Do not invent secrets, tokens, or API keys.
+- After you finish, write spike/SPIKE_REPORT.md in this worktree. Include: what you changed, why, which of the rules above shaped a decision, any tests or checks you ran, and a short before/after note.

@@ -1,0 +1,14 @@
+
+> harbor-desk@0.0.0 build
+> tsc -b && vite build
+
+vite v8.3.8 building client environment for production...
+transforming...
+✓ 26 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:  0.26 kB
+dist/assets/index-mGpAj8_F.css    1.52 kB │ gzip:  0.67 kB
+dist/assets/index-blz7Sad0.js   222.82 kB │ gzip: 69.70 kB
+
+✓ built in 142ms

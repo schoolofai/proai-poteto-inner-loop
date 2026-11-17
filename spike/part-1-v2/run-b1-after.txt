@@ -1,0 +1,35 @@
+
+> harbor-desk@0.0.0 test
+> vitest run
+
+
+ RUN  v5.1.0 /tmp/poteto-v2-b1
+
+
+ Test Files  2 passed (2)
+      Tests  4 passed (4)
+   Start at  23:52:47
+   Duration  606ms (environment 74%, tests 13%, import 8%, transform 4%, worker 1%)
+
+
+> harbor-desk@0.0.0 lint
+> oxlint
+
+
+> harbor-desk@0.0.0 typecheck
+> tsc -b
+
+
+> harbor-desk@0.0.0 build
+> tsc -b && vite build
+
+vite v8.3.8 building client environment for production...
+transforming...
+✓ 26 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.39 kB │ gzip:  0.26 kB
+dist/assets/index-mGpAj8_F.css    1.52 kB │ gzip:  0.67 kB
+dist/assets/index-BwLb9QnX.js   222.82 kB │ gzip: 69.70 kB
+
+✓ built in 165ms

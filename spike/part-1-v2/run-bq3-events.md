@@ -1,0 +1,35 @@
+- thread.started
+- turn.started
+- agent: I’ll trace the toolbar highlight, make the smallest fix at its source, and run the project checks. I’ll also save verification evidence and write `spike/SPIKE_REPORT.md`.
+- command start: /bin/bash -lc "pwd; rg --files -g 'AGENTS.md' -g 'package.json' -g '*Toolbar*' -g '*Panel*' -g '*test*' -g '*spec*' -g '*lock*' -g '*config*'"
+- command done (exit 0): /bin/bash -lc "pwd; rg --files -g 'AGENTS.md' -g 'package.json' -g '*Toolbar*' -g '*Panel*' -g '*test*' -g '*spec*' -g '*lock*' -g '*config*'"
+- command start: /bin/bash -lc 'cat src/ViewToggle.tsx src/deferVisualClass.ts src/SidebarItem.tsx src/App.tsx src/styles.css src/formatCount.test.ts vite.config.ts .oxlintrc.json CONTRIBUTING.md; git status --short'
+- command done (exit 0): /bin/bash -lc 'cat src/ViewToggle.tsx src/deferVisualClass.ts src/SidebarItem.tsx src/App.tsx src/styles.css src/formatCount.test.ts vite.config.ts .oxlintrc.json CONTRIBUTING.md; git status --short'
+- agent: The selected state is correct, but `ViewButton` removes the highlight class after each change and never adds it. I’ll make the class depend directly on that state and add a regression test for switching views and keeping the highlight through later renders.
+- item item.started: file_change
+- item item.completed: file_change
+- command start: /bin/bash -lc 'mkdir -p spike npm test > spike/before.txt 2>&1'
+- command done (exit 1): /bin/bash -lc 'mkdir -p spike npm test > spike/before.txt 2>&1'
+- command start: /bin/bash -lc 'cat spike/before.txt; cat src/SearchField.tsx'
+- command done (exit 0): /bin/bash -lc 'cat spike/before.txt; cat src/SearchField.tsx'
+- item item.started: file_change
+- item item.completed: file_change
+- command start: /bin/bash -lc 'npm test > spike/after.txt 2>&1 cat spike/after.txt'
+- command done (exit 0): /bin/bash -lc 'npm test > spike/after.txt 2>&1 cat spike/after.txt'
+- item item.started: file_change
+- item item.completed: file_change
+- command start: /bin/bash -lc 'npm run build > spike/build.txt 2>&1'
+- command start: /bin/bash -lc 'npm run lint > spike/lint.txt 2>&1'
+- command start: /bin/bash -lc 'npm test > spike/after.txt 2>&1'
+- command done (exit 0): /bin/bash -lc 'npm run lint > spike/lint.txt 2>&1'
+- command done (exit 0): /bin/bash -lc 'npm run build > spike/build.txt 2>&1'
+- command done (exit 0): /bin/bash -lc 'npm test > spike/after.txt 2>&1'
+- command start: /bin/bash -lc 'cat spike/after.txt spike/build.txt spike/lint.txt; git diff --check; git diff --stat'
+- command done (exit 0): /bin/bash -lc 'cat spike/after.txt spike/build.txt spike/lint.txt; git diff --check; git diff --stat'
+- agent: The fix passes the regression test, build, and lint. The test exercises the real `App` in Strict Mode and checks the highlight immediately after switches, after timers run, and after search updates. The production change is limited to `ViewToggle.tsx`.
+- item item.started: file_change
+- item item.completed: file_change
+- command start: /bin/bash -lc 'git diff --check; git status --short'
+- command done (exit 0): /bin/bash -lc 'git diff --check; git status --short'
+- agent: Fixed the highlight by deriving `is-active` directly from selection state and removing the effect that cleared it. Surrounding components are unchanged. Added a regression test. All 3 tests, build, lint, and diff checks pass. Report and before/after evidence: [SPIKE_REPORT.md](/tmp/poteto-v2-bq3/spike/SPIKE_REPORT.md).
+- turn.completed

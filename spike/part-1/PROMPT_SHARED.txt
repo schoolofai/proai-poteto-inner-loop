@@ -1,0 +1,5 @@
+Fix the sidebar flicker bug in this Harbor Desk app.
+
+When you click a folder in the left sidebar, the selected highlight flickers or shows up late. Users have also seen a similar flash on the unread badge.
+
+Please fix the bug and leave the app in a working state. You may install dependencies, run tests, and typecheck. Do not add a git remote, do not push, and do not use any API keys. After you finish, write SPIKE_REPORT.md describing what you changed and why.

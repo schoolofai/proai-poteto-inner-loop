@@ -1,0 +1,53 @@
+
+> harbor-desk@0.0.0 test
+> vitest run
+
+
+ RUN  v5.1.0 /tmp/poteto-v2-b1
+
+ ❯ src/ViewToggle.test.tsx (2 tests | 2 failed) 94ms
+   × highlights the initial List selection 78ms
+   × keeps the highlight in sync with repeated view changes and later renders 15ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ViewToggle.test.tsx > highlights the initial List selection
+AssertionError: expected 'rgb(255, 255, 255)' to be 'rgb(47, 111, 173)' // Object.is equality
+
+Expected: "rgb(47, 111, 173)"
+Received: "rgb(255, 255, 255)"
+
+ ❯ expectSelection src/ViewToggle.test.tsx:25:52
+     23|   expect(active.getAttribute('aria-pressed')).toBe('true')
+     24|   expect(inactive.getAttribute('aria-pressed')).toBe('false')
+     25|   expect(getComputedStyle(active).backgroundColor).toBe('rgb(47, 111, …
+       |                                                    ^
+     26|   expect(getComputedStyle(inactive).backgroundColor).toBe('rgb(255, 25…
+     27| }
+ ❯ src/ViewToggle.test.tsx:31:3
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/ViewToggle.test.tsx > keeps the highlight in sync with repeated view changes and later renders
+AssertionError: expected 'rgb(255, 255, 255)' to be 'rgb(47, 111, 173)' // Object.is equality
+
+Expected: "rgb(47, 111, 173)"
+Received: "rgb(255, 255, 255)"
+
+ ❯ expectSelection src/ViewToggle.test.tsx:25:52
+     23|   expect(active.getAttribute('aria-pressed')).toBe('true')
+     24|   expect(inactive.getAttribute('aria-pressed')).toBe('false')
+     25|   expect(getComputedStyle(active).backgroundColor).toBe('rgb(47, 111, …
+       |                                                    ^
+     26|   expect(getComputedStyle(inactive).backgroundColor).toBe('rgb(255, 25…
+     27| }
+ ❯ src/ViewToggle.test.tsx:38:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 2 passed (4)
+   Start at  23:52:46
+   Duration  633ms (environment 74%, tests 11%, import 8%, transform 6%, worker 1%)
+

@@ -1,0 +1,54 @@
+
+> harbor-desk@0.0.0 test
+> vitest run
+
+
+ RUN  v5.1.0 /tmp/poteto-v2-b2
+
+ ❯ src/ViewToggle.test.tsx (2 tests | 2 failed) 88ms
+   × highlights List on the initial render 69ms
+   × keeps the highlight aligned with the selected view through repeated switches 18ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/ViewToggle.test.tsx > highlights List on the initial render
+Error: expect(element).toHaveClass("is-active")
+
+Expected the element to have class:
+  is-active
+Received:
+  view-btn
+ ❯ src/ViewToggle.test.tsx:15:56
+     13|   render(<StrictMode><App /></StrictMode>)
+     14|
+     15|   expect(screen.getByRole('button', { name: 'List' })).toHaveClass('is…
+       |                                                        ^
+     16|   expect(screen.getByRole('button', { name: 'Preview' })).not.toHaveCl…
+     17| })
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  src/ViewToggle.test.tsx > keeps the highlight aligned with the selected view through repeated switches
+Error: expect(element).toHaveClass("is-active")
+
+Expected the element to have class:
+  is-active
+Received:
+  view-btn
+ ❯ assertSelection src/ViewToggle.test.tsx:30:24
+     28|     const assertSelection = () => {
+     29|       expect(selected).toHaveAttribute('aria-pressed', 'true')
+     30|       expect(selected).toHaveClass('is-active')
+       |                        ^
+     31|       expect(other).toHaveAttribute('aria-pressed', 'false')
+     32|       expect(other).not.toHaveClass('is-active')
+ ❯ src/ViewToggle.test.tsx:38:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 2 passed (4)
+   Start at  23:51:52
+   Duration  745ms (environment 69%, import 11%, transform 10%, tests 9%, worker 1%)
+

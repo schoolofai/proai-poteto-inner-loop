@@ -32,7 +32,49 @@ At the end of setup, `/setup-pstack` offers once to generate a project-local ver
 
 Commands are prefixed: `/poteto-mode` becomes `/pstack:poteto-mode`, `/setup-pstack` becomes `/pstack:setup-pstack`. Setup writes `~/.claude/rules/pstack-models.md`. Auto-update for third-party marketplaces is off by default; see the README for enabling it or running `claude plugin update pstack@cursor-plugins`. Some Cursor-only steps are skipped with a one-line note. See the [Claude Code adapter](https://github.com/cursor/plugins/blob/main/pstack/docs/harness/claude-code.md).
 
-The official docs cover Cursor and Claude Code.
+The official docs cover Cursor and Claude Code only. There is no official documentation for running pstack in Codex.
+
+## Start from scratch with Codex
+
+This is how we ran the Part 1 experiment with OpenAI's Codex CLI. The repo vendors an unmodified copy of official pstack 0.15.43 skills at `.agents/skills/` (pin recorded in [`.agents/UPSTREAM.md`](../.agents/UPSTREAM.md)) so Codex loads them when you start it in the repo root.
+
+**Prerequisites:** Node.js and npm; [Codex CLI](https://github.com/openai/codex) 0.160.1 (the version we tested); sign in with `codex login` if you are not already signed in.
+
+The `step-0-slop-v2` and `step-1-inner-loop-v2` tags predate the vendored skills. Those tags are not being moved. After you check out a tag, restore `.agents` from `main`:
+
+```bash
+git clone https://github.com/schoolofai/proai-poteto-inner-loop.git
+cd proai-poteto-inner-loop
+git checkout step-0-slop-v2
+git checkout main -- .agents
+npm install
+codex
+```
+
+In Codex, type `$poteto-mode`, or pick it from `/skills`. Then use the exact with-skills prompt from [`spike/part-1-v2/PROMPT_RUN_BQ.txt`](../spike/part-1-v2/PROMPT_RUN_BQ.txt):
+
+```text
+You are working in a local checkout of Harbor Desk, a small React + TypeScript mail-style desktop app.
+
+Task: When you switch between List and Preview in the panel toolbar, the selected highlight flickers or does not stay. Please make a quick fix with the smallest possible change so the highlight stays put. Do not refactor surrounding components unless you have to.
+
+Operate under these pstack-inspired rules (Lauren Tan / poteto):
+
+- poteto-mode / setup-pstack: treat this as an inner-loop quality task. Prefer existing project checks, then add a durable check if a lesson would otherwise live only in a comment or in your report.
+- principle-fix-root-causes: trace the symptom to the first place the system went wrong and fix it there. Do not paper over it with a local workaround.
+- principle-encode-lessons-in-structure: if you catch a pattern that should not recur, encode the lesson as a test, lint rule, or check, not as prose that the next agent has to reread.
+- principle-prove-it-works: verify against the real artifact. If you add a failing check first, save the before output, then the after output, in this worktree.
+- no-comments: do not leave justification comments that keep a workaround in place.
+
+Constraints:
+- Do not git push, do not add a remote, and do not commit unless a commit is required to leave the worktree in a reviewable state.
+- Do not invent secrets, tokens, or API keys.
+- After you finish, write spike/SPIKE_REPORT.md in this worktree. Include: what you changed, why, which of the rules above shaped a decision, any tests or checks you ran, and a short before/after note.
+```
+
+Official `setup-pstack` is included in the vendored copy for Cursor and Claude Code. It is not required to start `$poteto-mode` in Codex.
+
+Unofficial community ports include [Aqua-123/pstack-for-codex](https://github.com/Aqua-123/pstack-for-codex) and [michael-denyer/pstack-claude](https://github.com/michael-denyer/pstack-claude). On Codex CLI 0.160.1, after installing the Aqua-123 port, `$poteto-help` did not load a skill; `$pstack-for-codex:poteto-help` did read that port's `SKILL.md`. This repo uses the official folders under `.agents/skills/` instead, where `$poteto-mode` worked.
 
 ## Talk quotes (YouTube times on the published cut)
 

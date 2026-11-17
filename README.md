@@ -52,7 +52,60 @@ Same starting repo, same "quick fix, smallest possible change" prompt, run with 
 
 Prompts, diffs, reports, and full transcripts: [`spike/part-1-v2/`](spike/part-1-v2/), indexed in [`spike/part-1-v2/RESULTS.md`](spike/part-1-v2/RESULTS.md). The earlier, simpler experiment is in [`spike/part-1/`](spike/part-1/).
 
-## Install pstack
+## Start from scratch with Codex
+
+pstack has no official Codex documentation. Official pstack covers [Cursor and Claude Code](https://github.com/cursor/plugins/blob/main/pstack/README.md) only. The steps below are how we ran it for this video, with a pinned, unmodified copy of official pstack 0.15.43 skills in `.agents/skills/` so Codex loads them as soon as you start it in this repo. Details of the pin are in [`.agents/UPSTREAM.md`](.agents/UPSTREAM.md).
+
+**Prerequisites**
+
+- Node.js and npm
+- [Codex CLI](https://github.com/openai/codex) 0.160.1 (the version we tested)
+- Sign in to Codex (`codex login` if you are not already signed in)
+
+**Clone, get the messy starting tree, and keep the pinned skills**
+
+The `step-0-slop-v2` and `step-1-inner-loop-v2` tags were created before these skills were added. We are not moving those tags. The skills live on `main`. After you check out a tag, bring `.agents` back from `main`:
+
+```bash
+git clone https://github.com/schoolofai/proai-poteto-inner-loop.git
+cd proai-poteto-inner-loop
+git checkout step-0-slop-v2
+git checkout main -- .agents
+npm install
+```
+
+Start Codex in the repo root, then type `$poteto-mode` (or pick it from `/skills`):
+
+```bash
+codex
+```
+
+The exact prompt we used for the with-skills runs is in [`spike/part-1-v2/PROMPT_RUN_BQ.txt`](spike/part-1-v2/PROMPT_RUN_BQ.txt):
+
+```text
+You are working in a local checkout of Harbor Desk, a small React + TypeScript mail-style desktop app.
+
+Task: When you switch between List and Preview in the panel toolbar, the selected highlight flickers or does not stay. Please make a quick fix with the smallest possible change so the highlight stays put. Do not refactor surrounding components unless you have to.
+
+Operate under these pstack-inspired rules (Lauren Tan / poteto):
+
+- poteto-mode / setup-pstack: treat this as an inner-loop quality task. Prefer existing project checks, then add a durable check if a lesson would otherwise live only in a comment or in your report.
+- principle-fix-root-causes: trace the symptom to the first place the system went wrong and fix it there. Do not paper over it with a local workaround.
+- principle-encode-lessons-in-structure: if you catch a pattern that should not recur, encode the lesson as a test, lint rule, or check, not as prose that the next agent has to reread.
+- principle-prove-it-works: verify against the real artifact. If you add a failing check first, save the before output, then the after output, in this worktree.
+- no-comments: do not leave justification comments that keep a workaround in place.
+
+Constraints:
+- Do not git push, do not add a remote, and do not commit unless a commit is required to leave the worktree in a reviewable state.
+- Do not invent secrets, tokens, or API keys.
+- After you finish, write spike/SPIKE_REPORT.md in this worktree. Include: what you changed, why, which of the rules above shaped a decision, any tests or checks you ran, and a short before/after note.
+```
+
+Unofficial community ports also exist, including [Aqua-123/pstack-for-codex](https://github.com/Aqua-123/pstack-for-codex) and [michael-denyer/pstack-claude](https://github.com/michael-denyer/pstack-claude). On Codex CLI 0.160.1, after installing the Aqua-123 port, `$poteto-help` did not load a skill; `$pstack-for-codex:poteto-help` did read that port's `SKILL.md`. This repo uses the official skill folders under `.agents/skills/` instead, and `$poteto-mode` worked with that copy.
+
+## Install pstack in Cursor or Claude Code
+
+Official install docs: [pstack README](https://github.com/cursor/plugins/blob/main/pstack/README.md). The video uses pstack 0.15.43.
 
 In Cursor:
 
@@ -70,7 +123,7 @@ In Claude Code:
 /pstack:setup-pstack
 ```
 
-The video uses pstack 0.15.43. Full install notes, the talk quotes with YouTube times, and the source links are in [docs/part-1-inner-loop.md](docs/part-1-inner-loop.md).
+Full install notes, the talk quotes with YouTube times, and the source links are in [docs/part-1-inner-loop.md](docs/part-1-inner-loop.md).
 
 ## Sources
 

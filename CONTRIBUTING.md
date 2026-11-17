@@ -5,14 +5,13 @@ with the files already in `src/`.
 
 ## Visual state classes
 
-Selected, unread, focus, online, and filter styles are applied with
-`deferVisualClass` in `src/deferVisualClass.ts`. Please keep using that
-helper for those visual state classes so the layout-race fix stays in
-one place. If you need to change the delay, change it in the helper, not
-in each component.
+Selected, unread, focus, online, and filter styles are derived from props
+or React state in the render. Do not apply those classes with a delayed
+timer, `requestAnimationFrame`, or a helper such as `deferVisualClass`.
+`npm run verify` includes a check that fails if those patterns come back
+in production source.
 
 ## Tests
 
-`npm test` and `npm run typecheck` should stay green. The existing
-`formatCount` tests are the current coverage bar unless you are
-explicitly asked to add more.
+`npm test` and `npm run verify` should stay green. Add a behavior test
+when you change a visible interaction.

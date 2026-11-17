@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
-import { deferVisualClass } from './deferVisualClass'
+import { useState } from 'react'
 
 type Props = {
   value: string
@@ -7,18 +6,12 @@ type Props = {
 }
 
 export function SearchField({ value, onChange }: Props) {
-  const ref = useRef<HTMLInputElement>(null)
   const [focused, setFocused] = useState(false)
-
-  useEffect(() => {
-    return deferVisualClass(ref.current, 'is-focused', focused)
-  }, [focused])
 
   return (
     <input
-      ref={ref}
       type="search"
-      className="search-field"
+      className={focused ? 'search-field is-focused' : 'search-field'}
       data-testid="search-field"
       placeholder="Search this folder"
       value={value}

@@ -1,5 +1,3 @@
-import { useEffect, useRef } from 'react'
-import { deferVisualClass } from './deferVisualClass'
 import { StatusBadge } from './StatusBadge'
 import type { Folder } from './folders'
 
@@ -10,18 +8,10 @@ type Props = {
 }
 
 export function SidebarItem({ folder, selected, onSelect }: Props) {
-  const ref = useRef<HTMLButtonElement>(null)
-
-  useEffect(() => {
-    // Do not remove this — it's the only thing stopping the flicker.
-    return deferVisualClass(ref.current, 'is-active', selected)
-  }, [selected])
-
   return (
     <button
-      ref={ref}
       type="button"
-      className="sidebar-item"
+      className={selected ? 'sidebar-item is-active' : 'sidebar-item'}
       data-testid={`folder-${folder.id}`}
       aria-current={selected ? 'page' : undefined}
       onClick={() => onSelect(folder.id)}

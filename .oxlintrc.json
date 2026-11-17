@@ -3,6 +3,13 @@
   "plugins": ["react", "typescript", "oxc"],
   "rules": {
     "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+    "react/only-export-components": ["warn", { "allowConstantExport": true }],
+    "no-restricted-properties": [
+      "error",
+      {
+        "property": "classList",
+        "message": "Derive visual classes from React state in JSX className; do not mutate DOM classes."
+      }
+    ]
   }
 }

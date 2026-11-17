@@ -51,25 +51,17 @@ npm install
 codex
 ```
 
-In Codex, type `$poteto-mode`, or pick it from `/skills`. Then use the exact with-skills prompt from [`spike/part-1-v2/PROMPT_RUN_BQ.txt`](../spike/part-1-v2/PROMPT_RUN_BQ.txt):
+In Codex, type `$poteto-mode`, or pick it from `/skills`. The exact with-skills prompt from the video is [`spike/part-1-v3-installed/PROMPT_RUN_BS.txt`](../spike/part-1-v3-installed/PROMPT_RUN_BS.txt): the same quick-fix wording as the runs without the skills, started with `$poteto-mode`. No rules are pasted into it.
 
 ```text
-You are working in a local checkout of Harbor Desk, a small React + TypeScript mail-style desktop app.
+$poteto-mode You are working in a local checkout of Harbor Desk, a small React + TypeScript mail-style desktop app.
 
 Task: When you switch between List and Preview in the panel toolbar, the selected highlight flickers or does not stay. Please make a quick fix with the smallest possible change so the highlight stays put. Do not refactor surrounding components unless you have to.
-
-Operate under these pstack-inspired rules (Lauren Tan / poteto):
-
-- poteto-mode / setup-pstack: treat this as an inner-loop quality task. Prefer existing project checks, then add a durable check if a lesson would otherwise live only in a comment or in your report.
-- principle-fix-root-causes: trace the symptom to the first place the system went wrong and fix it there. Do not paper over it with a local workaround.
-- principle-encode-lessons-in-structure: if you catch a pattern that should not recur, encode the lesson as a test, lint rule, or check, not as prose that the next agent has to reread.
-- principle-prove-it-works: verify against the real artifact. If you add a failing check first, save the before output, then the after output, in this worktree.
-- no-comments: do not leave justification comments that keep a workaround in place.
 
 Constraints:
 - Do not git push, do not add a remote, and do not commit unless a commit is required to leave the worktree in a reviewable state.
 - Do not invent secrets, tokens, or API keys.
-- After you finish, write spike/SPIKE_REPORT.md in this worktree. Include: what you changed, why, which of the rules above shaped a decision, any tests or checks you ran, and a short before/after note.
+- After you finish, write spike/SPIKE_REPORT.md in this worktree. Include: what you changed, why, any tests or checks you ran, and a short before/after note.
 ```
 
 Official `setup-pstack` is included in the vendored copy for Cursor and Claude Code. It is not required to start `$poteto-mode` in Codex.
@@ -174,9 +166,20 @@ The delay, where it exists, *is* the flicker. In the first starting tree the tim
 
 **Tag `step-1-inner-loop-v2`** is the follow-up to the harder-trap tree. Visual classes in the toolbar and sidebar are derived from props or state, `deferVisualClass` is deleted, behavior tests fail if a timer is required, and `npm run verify` runs the timer/`deferVisualClass` check, lint, typecheck, tests, and the production build. The check is designed to fail on `step-0-slop-v2` and pass on `step-1-inner-loop-v2`. This tag was added by hand after the v2 spike; no agent run created it.
 
+## The video's guided run: installed skills (`spike/part-1-v3-installed/`)
+
+This is the experiment chapter 4 of the video follows. The prompt is the unguided AQ quick-fix wording from `spike/part-1-v2/PROMPT_RUN_A_QUICKFIX.txt`, prefixed only with `$poteto-mode`, with the pinned official pstack 0.15.43 skills present in `.agents/skills`. Prompt, diffs, reports, event summaries, and raw `codex exec --json` traces are in [`spike/part-1-v3-installed/`](../spike/part-1-v3-installed/), indexed in its `RESULTS.md`.
+
+- **Without the skills (AQ1, AQ2):** both runs hooked the toggle up to `deferVisualClass`. The highlight still waits 40 ms. No new tests.
+- **BS1 and BS3:** derived `is-active` from `selected`, deleted the effect, did not use the helper.
+- **BS2:** read `poteto-mode/SKILL.md` and still returned `deferVisualClass(ref.current, 'is-active', selected)`. From its report: "Reusing the existing helper follows `CONTRIBUTING.md` and the neighboring `PriorityFilter` pattern." A messy repo beat even the skill.
+- **Reports:** the prompt asks for `spike/SPIKE_REPORT.md`. The habit of naming the principle behind each decision comes from `poteto-mode` ("In your reply, name each principle that shaped a decision and the specific choice it changed."). All three reports name Laziness Protocol, Fix Root Causes, Prove It Works, and Test Behavior, Not Implementation, including BS2.
+- **Tests:** all three report a check that failed on the old code and passed after the fix. Only BS1 kept its test (`src/ViewToggle.test.tsx`, saved here as `run-bs1-ViewToggle.test.tsx`). BS2 and BS3 deleted theirs to keep the patch small. No standalone before/after log files.
+- **No run** removed the existing timers or added a ban. That gate is on `step-1-inner-loop-v2`.
+
 ## Spike v2: harder trap, same tool, honestly reported
 
-This is the spike the revised Part 1 script follows. Recorded 16–17 Nov 2026, Europe/London (UTC+0). The BQ control was recorded just after midnight on 17 Nov. The outcome table, prompts, diffs, reports, event logs, and raw `codex exec --json` traces are in `spike/part-1-v2/`, with a short index in `spike/part-1-v2/RESULTS.md`.
+The AQ runs without the skills, shown in the video, come from this spike. The BQ control below pasted a short pstack rule summary into the prompt; it is a different method from the installed-skill runs above. Recorded 16–17 Nov 2026, Europe/London (UTC+0). The BQ control was recorded just after midnight on 17 Nov. The outcome table, prompts, diffs, reports, event logs, and raw `codex exec --json` traces are in `spike/part-1-v2/`, with a short index in `spike/part-1-v2/RESULTS.md`.
 
 **Tooling.** Same constraints as the first spike. The spike ran on **OpenAI Codex CLI 0.160.1**, using its default OpenAI provider. Every run used `codex exec` in a fresh isolated git worktree starting from `step-0-slop-v2`. No `--model` flag was passed, so the CLI’s default OpenAI model was used. No remotes, no pushes. Logs were scanned for secret-like strings; none were found.
 
@@ -209,6 +212,8 @@ Run B also did not add a lint or script that bans timers in production source. T
 ## Exact prompts
 
 First spike: `spike/part-1/PROMPT_RUN_A.txt` and `spike/part-1/PROMPT_RUN_B.txt`.
+
+Installed-skill runs (the video): `spike/part-1-v3-installed/PROMPT_RUN_BS.txt`.
 
 Harder-trap spike: `spike/part-1-v2/PROMPT_RUN_A.txt`, `spike/part-1-v2/PROMPT_RUN_B.txt`, `spike/part-1-v2/PROMPT_RUN_A_QUICKFIX.txt`, and `spike/part-1-v2/PROMPT_RUN_BQ.txt`.
 

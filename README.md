@@ -2,7 +2,7 @@
 
 Starter repo for **Apply Viral Poteto AIE Talk Patterns One Skill at a Time – Part 1: Harden the Inner Loop First** (ProAI Clips). Video link coming soon.
 
-Harbor Desk is a small React + TypeScript mail app with a messy house style planted on purpose: a shared helper that waits 40 ms and then toggles a visual class, a contributing note that tells you to keep using it, and a List / Preview toggle whose highlight does not stay. The video asks a coding agent for a "quick fix" with and without the inner-loop rules from Lauren Tan's [pstack](https://github.com/cursor/plugins/tree/main/pstack) skills, then locks the lesson into the repo with a check.
+Harbor Desk is a small React + TypeScript mail app with a messy house style planted on purpose: a shared helper that waits 40 ms and then toggles a visual class, a contributing note that tells you to keep using it, and a List / Preview toggle whose highlight does not stay. The video asks a coding agent for a "quick fix" with and without Lauren Tan's [pstack](https://github.com/cursor/plugins/tree/main/pstack) skills installed, shows that a messy repo can beat even the skill, then locks the lesson into the repo with a check.
 
 ## Follow along
 
@@ -44,13 +44,17 @@ On `step-1-inner-loop-v2`, visual classes come from props and the whole `npm run
 
 ## The experiment
 
-Same starting repo, same "quick fix, smallest possible change" prompt, run with OpenAI's Codex CLI from a fresh copy each time: twice without the pstack rules (AQ) and three times with them in the prompt (BQ).
+Same starting repo (`step-0-slop-v2`), same "quick fix, smallest possible change" prompt, run with OpenAI's Codex CLI from a fresh copy each time.
 
-- Without the rules, both runs hooked the toggle up to the existing timer helper. No new tests.
-- With the rules, all three runs set the class from the selected state, wrote a test, saved it failing on the old code, then saved it passing after the fix.
-- No run removed the old helper or added a check against it. That check is on `step-1-inner-loop-v2`.
+**The video's guided run is [`spike/part-1-v3-installed/`](spike/part-1-v3-installed/)** (indexed in [`RESULTS.md`](spike/part-1-v3-installed/RESULTS.md)): the official pstack 0.15.43 skills installed in `.agents/skills`, and the task started with `$poteto-mode`. No rules are pasted into the prompt.
 
-Prompts, diffs, reports, and full transcripts: [`spike/part-1-v2/`](spike/part-1-v2/), indexed in [`spike/part-1-v2/RESULTS.md`](spike/part-1-v2/RESULTS.md). The earlier, simpler experiment is in [`spike/part-1/`](spike/part-1/).
+- **Without the skills (AQ1, AQ2, in [`spike/part-1-v2/`](spike/part-1-v2/)):** both runs hooked the toggle up to the existing 40 ms timer helper. No new tests.
+- **With the skills installed (BS1–BS3):** two of three runs (BS1, BS3) fixed the root cause: the class comes from `selected`, the effect is gone, the helper is not used. One run (BS2) read `poteto-mode/SKILL.md` and still reused the helper. Its report says: "Reusing the existing helper follows `CONTRIBUTING.md` and the neighboring `PriorityFilter` pattern." A messy repo beat even the skill.
+- **Reports:** the prompt asks for `spike/SPIKE_REPORT.md`. Naming the principle behind each decision comes from `poteto-mode` ("In your reply, name each principle that shaped a decision and the specific choice it changed."). All three reports name Laziness Protocol, Fix Root Causes, Prove It Works, and Test Behavior, Not Implementation.
+- **Tests:** all three runs report a check that failed on the old code and passed after the fix. Only BS1 kept its test in the tree (`run-bs1-ViewToggle.test.tsx`); BS2 and BS3 deleted theirs to keep the patch small.
+- **No run** removed the old helper or added a check against it. That check is on `step-1-inner-loop-v2`.
+
+Earlier experiments are kept for the record: [`spike/part-1-v2/`](spike/part-1-v2/) (the AQ runs above, the "keep the change small" A runs, and an older BQ control that pasted a short rule summary into the prompt, a different method) and [`spike/part-1/`](spike/part-1/).
 
 ## Start from scratch with Codex
 
@@ -80,25 +84,17 @@ Start Codex in the repo root, then type `$poteto-mode` (or pick it from `/skills
 codex
 ```
 
-The exact prompt we used for the with-skills runs is in [`spike/part-1-v2/PROMPT_RUN_BQ.txt`](spike/part-1-v2/PROMPT_RUN_BQ.txt):
+The exact prompt we used for the with-skills runs is in [`spike/part-1-v3-installed/PROMPT_RUN_BS.txt`](spike/part-1-v3-installed/PROMPT_RUN_BS.txt). It is the same quick-fix wording as the runs without the skills, started with `$poteto-mode`:
 
 ```text
-You are working in a local checkout of Harbor Desk, a small React + TypeScript mail-style desktop app.
+$poteto-mode You are working in a local checkout of Harbor Desk, a small React + TypeScript mail-style desktop app.
 
 Task: When you switch between List and Preview in the panel toolbar, the selected highlight flickers or does not stay. Please make a quick fix with the smallest possible change so the highlight stays put. Do not refactor surrounding components unless you have to.
-
-Operate under these pstack-inspired rules (Lauren Tan / poteto):
-
-- poteto-mode / setup-pstack: treat this as an inner-loop quality task. Prefer existing project checks, then add a durable check if a lesson would otherwise live only in a comment or in your report.
-- principle-fix-root-causes: trace the symptom to the first place the system went wrong and fix it there. Do not paper over it with a local workaround.
-- principle-encode-lessons-in-structure: if you catch a pattern that should not recur, encode the lesson as a test, lint rule, or check, not as prose that the next agent has to reread.
-- principle-prove-it-works: verify against the real artifact. If you add a failing check first, save the before output, then the after output, in this worktree.
-- no-comments: do not leave justification comments that keep a workaround in place.
 
 Constraints:
 - Do not git push, do not add a remote, and do not commit unless a commit is required to leave the worktree in a reviewable state.
 - Do not invent secrets, tokens, or API keys.
-- After you finish, write spike/SPIKE_REPORT.md in this worktree. Include: what you changed, why, which of the rules above shaped a decision, any tests or checks you ran, and a short before/after note.
+- After you finish, write spike/SPIKE_REPORT.md in this worktree. Include: what you changed, why, any tests or checks you ran, and a short before/after note.
 ```
 
 Unofficial community ports also exist, including [Aqua-123/pstack-for-codex](https://github.com/Aqua-123/pstack-for-codex) and [michael-denyer/pstack-claude](https://github.com/michael-denyer/pstack-claude). On Codex CLI 0.160.1, after installing the Aqua-123 port, `$poteto-help` did not load a skill; `$pstack-for-codex:poteto-help` did read that port's `SKILL.md`. This repo uses the official skill folders under `.agents/skills/` instead, and `$poteto-mode` worked with that copy.

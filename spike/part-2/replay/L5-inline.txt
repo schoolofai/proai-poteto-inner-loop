@@ -1,0 +1,5 @@
+# L5-inline: past mistake from next-A5 (inline variant) applied to 92d8b7f5907a3cf5a319034068457d724af79730 (agents_line=1)
+## npm run test -> exit 0
+## npm run typecheck -> exit 0
+## npm run lint -> exit 0
+## npm run build -> exit 0

@@ -1,0 +1,72 @@
+diff --git a/src/App.tsx b/src/App.tsx
+index 5fe23cf..5fc86d8 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -2,6 +2,7 @@ import { useState } from 'react'
+ import { Sidebar } from './Sidebar'
+ import { SearchField } from './SearchField'
+ import { PriorityFilter } from './PriorityFilter'
++import { UnreadFilter } from './UnreadFilter'
+ import { SyncIndicator } from './SyncIndicator'
+ import { ViewToggle, type ViewMode } from './ViewToggle'
+ import { FOLDERS, folderLabel, type FolderId } from './folders'
+@@ -10,6 +11,7 @@ export function App() {
+   const [selected, setSelected] = useState<FolderId>('inbox')
+   const [query, setQuery] = useState('')
+   const [priorityOnly, setPriorityOnly] = useState(false)
++  const [unreadOnly, setUnreadOnly] = useState(false)
+   const [compact, setCompact] = useState(false)
+   const [view, setView] = useState<ViewMode>('list')
+   const current = FOLDERS.find((folder) => folder.id === selected)!
+@@ -24,6 +26,10 @@ export function App() {
+             active={priorityOnly}
+             onToggle={() => setPriorityOnly((value) => !value)}
+           />
++          <UnreadFilter
++            active={unreadOnly}
++            onToggle={() => setUnreadOnly((value) => !value)}
++          />
+           <button
+             type="button"
+             className={compact ? 'priority-filter is-active' : 'priority-filter'}
+@@ -44,6 +50,7 @@ export function App() {
+         <p className="view-copy" data-testid="view-copy">
+           {view === 'list' ? 'Showing a list of messages.' : 'Showing the preview pane.'}
+           {priorityOnly ? ' Priority messages only.' : ''}
++          {unreadOnly ? ' Unread messages only.' : ''}
+           {query ? ` Filtered by “${query}”.` : ''}
+         </p>
+       </main>
+diff --git a/src/UnreadFilter.tsx b/src/UnreadFilter.tsx
+new file mode 100644
+index 0000000..f0bc7e8
+--- /dev/null
++++ b/src/UnreadFilter.tsx
+@@ -0,0 +1,27 @@
++import { useEffect, useRef } from 'react'
++import { deferVisualClass } from './deferVisualClass'
++
++type Props = {
++  active: boolean
++  onToggle: () => void
++}
++
++export function UnreadFilter({ active, onToggle }: Props) {
++  const ref = useRef<HTMLButtonElement>(null)
++
++  useEffect(() => {
++    return deferVisualClass(ref.current, 'is-active', active)
++  }, [active])
++
++  return (
++    <button
++      ref={ref}
++      type="button"
++      className="priority-filter"
++      aria-pressed={active}
++      onClick={onToggle}
++    >
++      Unread only
++    </button>
++  )
++}

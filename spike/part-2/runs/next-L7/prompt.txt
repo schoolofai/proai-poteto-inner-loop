@@ -1,0 +1,1 @@
+Add an "Unread only" button to the panel toolbar, next to "Priority only". Clicking it turns the filter on and off. When the filter is on, the button is highlighted with the is-active class. Keep the change small, and run the project's checks before you finish.

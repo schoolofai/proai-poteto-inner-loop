@@ -1,0 +1,12 @@
+- thread.started
+- turn.started
+- agent: I’ll find `PriorityFilter`, copy its pattern for unread filtering, and keep the change small.
+- command (exit 0): /bin/bash -lc "rg -n 'PriorityFilter|Priority only' ."
+- command (exit 0): /bin/bash -lc "cat src/PriorityFilter.tsx src/App.tsx package.json; rg -n 'unread|priority|deferVisualClass' src; rg --files -g AGENTS.md"
+- command (exit 0): /bin/bash -lc "rg --files | rg 'test|spec'; git status --short; cat AGENTS.md"
+- file change: update App.tsx, add UnreadFilter.tsx
+- command (exit 0): /bin/bash -lc 'git diff --check; git diff -- src/App.tsx; cat src/UnreadFilter.tsx'
+- command (exit 0): /bin/bash -lc 'npm run build'
+- command (exit 0): /bin/bash -lc 'npm test'
+- agent: Added “Unread only” beside “Priority only,” copying its toggle pattern and styling. Its active class derives directly from state, per `AGENTS.md`.  Build and existing tests pass.
+- turn.completed usage={'input_tokens': 89636, 'cached_input_tokens': 81920, 'cache_write_input_tokens': 0, 'output_tokens': 684, 'reasoning_output_tokens': 10}

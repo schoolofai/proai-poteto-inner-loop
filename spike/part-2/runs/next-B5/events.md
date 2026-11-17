@@ -1,0 +1,11 @@
+- thread.started
+- turn.started
+- agent: I’ll add the toggle beside “Priority only” and run `npm run check`. 
+- command (exit 0): /bin/bash -lc "rg -n 'Priority only|priorityOnly' src"
+- command (exit 0): /bin/bash -lc 'cat package.json'
+- command (exit 0): /bin/bash -lc 'cat src/App.tsx src/PriorityFilter.tsx src/visualState.test.tsx'
+- command (exit 0): /bin/bash -lc 'git status --short'
+- file change: update App.tsx, update visualState.test.tsx
+- command (exit 0): /bin/bash -lc 'npm run check'
+- agent: Added “Unread only” beside “Priority only.” It toggles on and off, with `is-active` highlighting and `aria-pressed` reflecting its state immediately.  `npm run check` passed: all 10 tests, typecheck, lint, and build.
+- turn.completed usage={'input_tokens': 71887, 'cached_input_tokens': 64640, 'cache_write_input_tokens': 0, 'output_tokens': 653, 'reasoning_output_tokens': 36}

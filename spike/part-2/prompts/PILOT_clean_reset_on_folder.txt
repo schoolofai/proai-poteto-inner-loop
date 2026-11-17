@@ -1,0 +1,1 @@
+When I switch folders in the sidebar, clear the search box and turn off "Priority only", so each folder starts unfiltered. Keep the change small. Make sure npm run verify passes.

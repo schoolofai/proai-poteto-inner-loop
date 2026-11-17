@@ -1,0 +1,1 @@
+That works, but don't use deferVisualClass or any timer for a highlight. The class should come straight from the selected prop when the button renders. Please redo the fix that way.

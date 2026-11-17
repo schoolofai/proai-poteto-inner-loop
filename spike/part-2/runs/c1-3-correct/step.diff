@@ -1,0 +1,53 @@
+diff --git a/.oxlintrc.json b/.oxlintrc.json
+index 6fa991d..083f3a2 100644
+--- a/.oxlintrc.json
++++ b/.oxlintrc.json
+@@ -1,8 +1,35 @@
+ {
+   "$schema": "./node_modules/oxlint/configuration_schema.json",
+-  "plugins": ["react", "typescript", "oxc"],
++  "plugins": [
++    "react",
++    "typescript",
++    "oxc"
++  ],
+   "rules": {
+     "react/rules-of-hooks": "error",
+-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
+-  }
++    "react/only-export-components": [
++      "warn",
++      {
++        "allowConstantExport": true
++      }
++    ],
++    "no-restricted-properties": [
++      "error",
++      {
++        "property": "classList",
++        "message": "Derive className from React props/state during render instead of mutating DOM classes."
++      }
++    ]
++  },
++  "overrides": [
++    {
++      "files": [
++        "**/*.test.ts",
++        "**/*.test.tsx"
++      ],
++      "rules": {
++        "no-restricted-properties": "off"
++      }
++    }
++  ]
+ }
+diff --git a/AGENTS.md b/AGENTS.md
+index 3e02ae5..5772ada 100644
+--- a/AGENTS.md
++++ b/AGENTS.md
+@@ -2,4 +2,4 @@
+ 
+ | Rule | Enforcement |
+ | --- | --- |
+-| Derive visual classes from React props/state during render. | The delayed-class helper is deleted; `src/visualState.test.tsx` checks immediate highlights, focus, unread, online, and compact transitions with timers frozen. `npm run check` runs these tests locally and in CI. |
++| Derive visual classes from React props/state during render. | `no-restricted-properties` rejects production `classList` access with render-derived `className` guidance; the delayed-class helper is deleted; `src/visualState.test.tsx` checks immediate highlights, focus, unread, online, and compact transitions with timers frozen. `npm run check` runs these tests locally and in CI. |

@@ -1,0 +1,83 @@
+diff --git a/src/App.tsx b/src/App.tsx
+index c67cb17..58d6378 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -2,6 +2,7 @@ import { useState } from 'react'
+ import { Sidebar } from './Sidebar'
+ import { SearchField } from './SearchField'
+ import { PriorityFilter } from './PriorityFilter'
++import { UnreadFilter } from './UnreadFilter'
+ import { SyncIndicator } from './SyncIndicator'
+ import { ViewToggle, type ViewMode } from './ViewToggle'
+ import { FOLDERS, folderLabel, type FolderId } from './folders'
+@@ -10,6 +11,7 @@ export function App() {
+   const [selected, setSelected] = useState<FolderId>('inbox')
+   const [query, setQuery] = useState('')
+   const [priorityOnly, setPriorityOnly] = useState(false)
++  const [unreadOnly, setUnreadOnly] = useState(false)
+   const [compact, setCompact] = useState(false)
+   const [view, setView] = useState<ViewMode>('list')
+   const current = FOLDERS.find((folder) => folder.id === selected)!
+@@ -24,6 +26,10 @@ export function App() {
+             active={priorityOnly}
+             onToggle={() => setPriorityOnly((value) => !value)}
+           />
++          <UnreadFilter
++            active={unreadOnly}
++            onToggle={() => setUnreadOnly((value) => !value)}
++          />
+           <button
+             type="button"
+             className={compact ? 'compact-toggle is-active' : 'compact-toggle'}
+@@ -44,6 +50,7 @@ export function App() {
+         <p className="view-copy" data-testid="view-copy">
+           {view === 'list' ? 'Showing a list of messages.' : 'Showing the preview pane.'}
+           {priorityOnly ? ' Priority messages only.' : ''}
++          {unreadOnly ? ' Unread messages only.' : ''}
+           {query ? ` Filtered by “${query}”.` : ''}
+         </p>
+       </main>
+diff --git a/src/UnreadFilter.tsx b/src/UnreadFilter.tsx
+new file mode 100644
+index 0000000..7a41a6d
+--- /dev/null
++++ b/src/UnreadFilter.tsx
+@@ -0,0 +1,18 @@
++type Props = {
++  active: boolean
++  onToggle: () => void
++}
++
++export function UnreadFilter({ active, onToggle }: Props) {
++  return (
++    <button
++      type="button"
++      className={active ? 'unread-filter is-active' : 'unread-filter'}
++      data-testid="unread-filter"
++      aria-pressed={active}
++      onClick={onToggle}
++    >
++      Unread only
++    </button>
++  )
++}
+diff --git a/src/styles.css b/src/styles.css
+index 38a8a49..d3263ee 100644
+--- a/src/styles.css
++++ b/src/styles.css
+@@ -85,6 +85,7 @@ body { margin: 0; }
+ }
+ 
+ .priority-filter,
++.unread-filter,
+ .compact-toggle,
+ .view-btn {
+   border: 1px solid #c5d0dc;
+@@ -97,6 +98,7 @@ body { margin: 0; }
+ }
+ 
+ .priority-filter.is-active,
++.unread-filter.is-active,
+ .compact-toggle.is-active,
+ .view-btn.is-active {
+   background: #2f6fad;

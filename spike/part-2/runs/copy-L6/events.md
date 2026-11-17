@@ -1,0 +1,12 @@
+- thread.started
+- turn.started
+- agent: I’ll find `PriorityFilter`, copy its pattern for unread filtering, and add it beside “Priority only” with a minimal change. 
+- command (exit 0): /bin/bash -lc "rg -n 'PriorityFilter|Priority only' ."
+- command (exit 0): /bin/bash -lc 'cat src/App.tsx src/PriorityFilter.tsx package.json; rg --files src; git status --short'
+- agent: `PriorityFilter` uses a delayed visual class. I’ll copy its button structure, derive the unread button’s class directly from state as your repo instructions require, and wire it into the panel’s existing filter summary. 
+- command (exit 0): /bin/bash -lc 'cat .agents/skills/principle-prove-it-works/SKILL.md; cat src/styles.css'
+- agent: I’m applying the `principle-prove-it-works` skill to check the final diff and run the project checks. 
+- file change: update App.tsx, add UnreadFilter.tsx
+- command (exit 0): /bin/bash -lc 'npm run typecheck && npm run lint && npm test && git diff --check && git diff --stat'
+- agent: Added “Unread only” beside “Priority only,” with matching styling, toggle behavior, accessibility state, and filter summary. Its visual class derives directly from state.  Typecheck, lint, and existing tests pass.
+- turn.completed usage={'input_tokens': 88890, 'cached_input_tokens': 74752, 'cache_write_input_tokens': 0, 'output_tokens': 755, 'reasoning_output_tokens': 55}

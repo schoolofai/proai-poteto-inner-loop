@@ -1,0 +1,6 @@
+# B6-inline: past mistake from next-A6 (inline variant) applied to 005c3c35652c16218c6f97bdc98d6d8fa8a92cf5 (agents_line=0)
+## npm run test -> exit 0
+## npm run typecheck -> exit 0
+## npm run lint -> exit 0
+## npm run build -> exit 0
+## npm run check -> exit 0

@@ -1,0 +1,16 @@
+- thread.started
+- turn.started
+- agent: I’ll add the toggle beside “Priority only,” derive its styling from React state, and run the project checks. 
+- command (exit 0): /bin/bash -lc "rg -n 'Priority only|priorityOnly' src"
+- command (exit 0): /bin/bash -lc 'cat package.json; cat .agents/skills/principle-prove-it-works/SKILL.md'
+- command (exit 0): /bin/bash -lc 'cat src/App.tsx src/PriorityFilter.tsx src/visualState.test.tsx; rg --files src; git status --short'
+- agent: The panel represents filtering with state and descriptive text. I’ll follow that pattern and extend the existing toggle check, applying the prove-it-works skill to verify both directions. 
+- command (exit 0): /bin/bash -lc "rg -n 'priority|is-active|button' src/styles.css"
+- file change: update App.tsx, update visualState.test.tsx
+- command (exit 0): /bin/bash -lc 'npm run check'
+- command (exit 0): /bin/bash -lc "sed -n '80,110p' src/styles.css"
+- file change: update styles.css
+- command (exit 0): /bin/bash -lc 'npm run check'
+- command (exit 0): /bin/bash -lc 'git diff --stat; git diff -- src/styles.css'
+- agent: Added “Unread only” beside “Priority only.” It toggles on and off, with React state controlling `is-active` highlighting and `aria-pressed`.  `npm run check` passed: lint, all 6 tests, and production build.
+- turn.completed usage={'input_tokens': 92744, 'cached_input_tokens': 80512, 'cache_write_input_tokens': 0, 'output_tokens': 871, 'reasoning_output_tokens': 18}

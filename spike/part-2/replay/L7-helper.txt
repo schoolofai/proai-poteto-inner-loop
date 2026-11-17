@@ -1,0 +1,5 @@
+# L7-helper: past mistake from next-A7 (helper variant) applied to f57fc4b7c6a1919d8743640206bd1988535338dc (agents_line=1)
+## npm run test -> exit 0
+## npm run typecheck -> exit 0
+## npm run lint -> exit 0
+## npm run build -> exit 0

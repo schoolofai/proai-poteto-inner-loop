@@ -1,0 +1,17 @@
+- thread.started
+- turn.started
+- agent: I’ll find the toolbar and filter logic, add the toggle, then run the project’s checks. 
+- command (exit 0): /bin/bash -lc "pwd; rg --files -g 'AGENTS.md' -g 'package.json' -g '*lock*' -g '*Panel*' -g '*panel*'"
+- command (exit 0): /bin/bash -lc "cat .agents/skills/principle-prove-it-works/SKILL.md; rg -n 'Priority only|priorityOnly|priority-only' . --glob '"'!node_modules/**'"'"
+- command (exit 1): /bin/bash -lc 'ls -a; cat package.json; cat src/App.tsx; cat src/PriorityFilter.tsx; rg --files src; find .. -name AGENTS.md -print'
+- agent: The panel tracks filters in `App.tsx`. I’ll add the unread toggle beside “Priority only,” using the existing button styles and `aria-pressed` state. I’m also applying the `principle-prove-it-works` skill to verify the final change. 
+- command (exit 0): /bin/bash -lc 'cat CONTRIBUTING.md; cat README.md; cat vite.config.ts; git status --short'
+- file change: update App.tsx, add UnreadFilter.tsx
+- command (exit 0): /bin/bash -lc 'cat src/deferVisualClass.ts'
+- command (exit 0): /bin/bash -lc 'npm run lint'
+- command (exit 0): /bin/bash -lc 'npm run typecheck'
+- command (exit 0): /bin/bash -lc 'npm run build'
+- command (exit 0): /bin/bash -lc 'npm test'
+- command (exit 0): /bin/bash -lc 'git diff --check; git diff -- src/App.tsx; git status --short; cat src/UnreadFilter.tsx'
+- agent: Added “Unread only” beside “Priority only.” Clicking toggles the filter, `aria-pressed`, and the `is-active` highlight using the existing visual-state helper.  Passed: tests, typecheck, lint, build, and diff checks.
+- turn.completed usage={'input_tokens': 132021, 'cached_input_tokens': 123136, 'cache_write_input_tokens': 0, 'output_tokens': 1429, 'reasoning_output_tokens': 115}

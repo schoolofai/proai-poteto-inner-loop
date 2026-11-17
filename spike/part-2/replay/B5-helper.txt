@@ -1,0 +1,20 @@
+# B5-helper: past mistake from next-A5 (helper variant) applied to 6d5732b6c8305869a1162e83215d0b376960eca7 (agents_line=0)
+## npm run test -> exit 1
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  src/visualState.test.tsx [ src/visualState.test.tsx ]
+Error: Failed to resolve import "./deferVisualClass" from "src/UnreadFilter.tsx". Does the file exist?
+  2  |  import { deferVisualClass } from "./deferVisualClass";
+ ❯ TransformPluginContext.error node_modules/vite/dist/node/chunks/node.js:8862:14
+ Test Files  1 failed | 1 passed (2)
+## npm run typecheck -> exit 1
+src/UnreadFilter.tsx(2,34): error TS2307: Cannot find module './deferVisualClass' or its corresponding type declarations.
+## npm run lint -> exit 0
+## npm run build -> exit 1
+src/UnreadFilter.tsx(2,34): error TS2307: Cannot find module './deferVisualClass' or its corresponding type declarations.
+## npm run check -> exit 1
+⎯⎯⎯⎯⎯⎯ Failed Suites 1 ⎯⎯⎯⎯⎯⎯⎯
+ FAIL  src/visualState.test.tsx [ src/visualState.test.tsx ]
+Error: Failed to resolve import "./deferVisualClass" from "src/UnreadFilter.tsx". Does the file exist?
+  2  |  import { deferVisualClass } from "./deferVisualClass";
+ ❯ TransformPluginContext.error node_modules/vite/dist/node/chunks/node.js:8862:14
+ Test Files  1 failed | 1 passed (2)

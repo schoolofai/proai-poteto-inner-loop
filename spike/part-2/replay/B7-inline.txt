@@ -1,0 +1,10 @@
+# B7-inline: past mistake from next-A7 (inline variant) applied to 6b521114260da438c74abda4620d37ae4af0a119 (agents_line=0)
+## npm run test -> exit 0
+## npm run typecheck -> exit 0
+## npm run lint -> exit 1
+src/UnreadFilter.tsx:14:8: error eslint(no-restricted-properties): 'classList' is restricted from being used. help: Derive visual classes from React state in JSX className; do not mutate DOM classes.
+src/UnreadFilter.tsx:16:22: error eslint(no-restricted-properties): 'classList' is restricted from being used. help: Derive visual classes from React state in JSX className; do not mutate DOM classes.
+## npm run build -> exit 0
+## npm run check -> exit 1
+src/UnreadFilter.tsx:14:8: error eslint(no-restricted-properties): 'classList' is restricted from being used. help: Derive visual classes from React state in JSX className; do not mutate DOM classes.
+src/UnreadFilter.tsx:16:22: error eslint(no-restricted-properties): 'classList' is restricted from being used. help: Derive visual classes from React state in JSX className; do not mutate DOM classes.

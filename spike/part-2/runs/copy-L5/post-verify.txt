@@ -1,0 +1,2 @@
+verify_exit=1
+no verify script

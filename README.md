@@ -1,6 +1,6 @@
 # Harbor Desk: harden the inner loop first
 
-Starter repo for **Apply Viral Poteto AIE Talk Patterns One Skill at a Time – Part 1: Harden the Inner Loop First** (ProAI Clips). Video link coming soon.
+Starter repo for **Apply Viral Poteto AIE Talk Patterns One Skill at a Time – Part 1: Harden the Inner Loop First** (ProAI Clips). Watch the video: [Part 1 on YouTube](https://youtu.be/voDkLapQyxE).
 
 Harbor Desk is a small React + TypeScript mail app with a messy house style planted on purpose: a shared helper that waits 40 ms and then toggles a visual class, a contributing note that tells you to keep using it, and a List / Preview toggle whose highlight does not stay. The video asks a coding agent for a "quick fix" with and without Lauren Tan's [pstack](https://github.com/cursor/plugins/tree/main/pstack) skills installed, shows that a messy repo can beat even the skill, then locks the lesson into the repo with a check.
 

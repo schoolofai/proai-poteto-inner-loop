@@ -1,6 +1,6 @@
 # Part 1: Harden the inner loop first
 
-Companion notes for Part 1 of the ProAI Clips series *Apply Viral Poteto AIE Talk Patterns One Skill at a Time*: install steps, full quotes, source links, and the experiment transcripts. Video link coming soon.
+Companion notes for Part 1 of the ProAI Clips series *Apply Viral Poteto AIE Talk Patterns One Skill at a Time*: install steps, full quotes, source links, and the experiment transcripts. Watch the video: [Part 1 on YouTube](https://youtu.be/voDkLapQyxE).
 
 **pstack version used in the video:** 0.15.43, as published on [cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack) (`plugin.json`). Pin it if you want the same results.
 

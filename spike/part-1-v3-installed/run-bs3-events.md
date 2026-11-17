@@ -1,0 +1,35 @@
+- thread.started
+- turn.started
+- agent: I’ll use poteto-mode to trace the List/Preview highlight and make the smallest fix that keeps it selected. I’ll verify the behavior and write `spike/SPIKE_REPORT.md`.
+- command start: /bin/bash -lc "pwd; rg --files -g 'AGENTS.md' -g 'package.json' -g '*Toolbar*' -g '*Panel*' -g '*test*' -g 'SKILL.md' -g '*bug-fix*'"
+- command done (exit 0): /bin/bash -lc "pwd; rg --files -g 'AGENTS.md' -g 'package.json' -g '*Toolbar*' -g '*Panel*' -g '*test*' -g 'SKILL.md' -g '*bug-fix*'"
+- command start: /bin/bash -lc 'cat .agents/skills/poteto-mode/SKILL.md .agents/skills/poteto-mode/playbooks/bug-fix.md .agents/skills/principle-laziness-protocol/SKILL.md .agents/skills/principle-fix-root-causes/SKILL.md .agents/skills/principle-prove-it-…
+- command done (exit 0): /bin/bash -lc 'cat .agents/skills/poteto-mode/SKILL.md .agents/skills/poteto-mode/playbooks/bug-fix.md .agents/skills/principle-laziness-protocol/SKILL.md .agents/skills/principle-fix-root-causes/SKILL.md .agents/skills/principle-prove-it-…
+- command start: /bin/bash -lc "ls -a; cat package.json; rg -n 'Preview|List|selected|active' src; find .. -name AGENTS.md -print"
+- command done (exit 1): /bin/bash -lc "ls -a; cat package.json; rg -n 'Preview|List|selected|active' src; find .. -name AGENTS.md -print"
+- command start: /bin/bash -lc 'cat src/ViewToggle.tsx src/deferVisualClass.ts vite.config.ts src/formatCount.test.ts; cat .agents/skills/poteto-mode/worker.md; git status --short; cat CONTRIBUTING.md'
+- command done (exit 0): /bin/bash -lc 'cat src/ViewToggle.tsx src/deferVisualClass.ts vite.config.ts src/formatCount.test.ts; cat .agents/skills/poteto-mode/worker.md; git status --short; cat CONTRIBUTING.md'
+- agent: The selected state already reaches each button, but the effect removes `is-active` and never adds it. The data shape can stay as it is, with a `ViewMode` and a `selected` boolean. Fix Root Causes points to deriving the class directly from `selected`. Laziness Protocol keeps the change inside `ViewToggle.tsx`. The documented helper delays highlights, which would still leave a gap when switching.
+- command start: /bin/bash -lc "cat src/App.tsx src/styles.css .agents/skills/principle-test-behavior-not-implementation/SKILL.md; rg --files .agents | rg 'unslop|technical-writing|control-ui|architect'; command -v chromium; command -v google-chrome"
+- command done (exit 0): /bin/bash -lc "cat src/App.tsx src/styles.css .agents/skills/principle-test-behavior-not-implementation/SKILL.md; rg --files .agents | rg 'unslop|technical-writing|control-ui|architect'; command -v chromium; command -v google-chrome"
+- command start: /bin/bash -lc "node -e \"for (const m of ['playwright','puppeteer','@playwright/test']) {try { console.log(m,import.meta.resolve(m))} catch {}}\"; ls /tmp | head"
+- command done (exit 0): /bin/bash -lc "node -e \"for (const m of ['playwright','puppeteer','@playwright/test']) {try { console.log(m,import.meta.resolve(m))} catch {}}\"; ls /tmp | head"
+- command start: /bin/bash -lc "cat > src/view-highlight.spike.test.tsx <<'EOF' import { cleanup, fireEvent, render, screen } from '@testing-library/react' import { afterEach, expect, it } from 'vitest' import { App } from './App' afterEach(cleanup) it('ke…
+- command done (exit 1): /bin/bash -lc "cat > src/view-highlight.spike.test.tsx <<'EOF' import { cleanup, fireEvent, render, screen } from '@testing-library/react' import { afterEach, expect, it } from 'vitest' import { App } from './App' afterEach(cleanup) it('ke…
+- command start: /bin/bash -lc "sed -i \"s/getByRole('textbox')/getByRole('searchbox')/\" src/view-highlight.spike.test.tsx cp src/ViewToggle.tsx /tmp/harbor-ViewToggle-fixed.tsx git show HEAD:src/ViewToggle.tsx > src/ViewToggle.tsx npm test -- src/view-hi…
+- command done (exit 1): /bin/bash -lc "sed -i \"s/getByRole('textbox')/getByRole('searchbox')/\" src/view-highlight.spike.test.tsx cp src/ViewToggle.tsx /tmp/harbor-ViewToggle-fixed.tsx git show HEAD:src/ViewToggle.tsx > src/ViewToggle.tsx npm test -- src/view-hi…
+- command start: /bin/bash -lc 'cp /tmp/harbor-ViewToggle-fixed.tsx src/ViewToggle.tsx npm test -- src/view-highlight.spike.test.tsx'
+- command done (exit 0): /bin/bash -lc 'cp /tmp/harbor-ViewToggle-fixed.tsx src/ViewToggle.tsx npm test -- src/view-highlight.spike.test.tsx'
+- command start: /bin/bash -lc 'cat .agents/skills/no-comments/SKILL.md'
+- command done (exit 0): /bin/bash -lc 'cat .agents/skills/no-comments/SKILL.md'
+- agent: The App DOM check fails on the original code because the selected button has no highlight class. It passes with the fix through repeated switches, a wait after each switch, and an unrelated search update. Prove It Works shaped that before/after check. Test Behavior, Not Implementation kept it focused on the rendered buttons and panel text. This verifies DOM behavior, not browser paint; the requested UI control skill…
+- command start: /bin/bash -lc 'rm src/view-highlight.spike.test.tsx npm test'
+- command done (exit 0): /bin/bash -lc 'rm src/view-highlight.spike.test.tsx npm test'
+- command start: /bin/bash -lc 'npm run build'
+- command done (exit 0): /bin/bash -lc 'npm run build'
+- command start: /bin/bash -lc 'npm run lint; git diff --check; git diff -- src/ViewToggle.tsx'
+- command done (exit 0): /bin/bash -lc 'npm run lint; git diff --check; git diff -- src/ViewToggle.tsx'
+- command start: /bin/bash -lc "mkdir -p spike cat > spike/SPIKE_REPORT.md <<'EOF' # Stable List/Preview highlight Goal: keep the selected List/Preview toolbar highlight in place with the smallest change. ## Change and reason In "'`src/ViewToggle.tsx`, der…
+- command done (exit 0): /bin/bash -lc "mkdir -p spike cat > spike/SPIKE_REPORT.md <<'EOF' # Stable List/Preview highlight Goal: keep the selected List/Preview toolbar highlight in place with the smallest change. ## Change and reason In "'`src/ViewToggle.tsx`, der…
+- agent: Fixed the highlight in [ViewToggle.tsx](/tmp/poteto-bs3/src/ViewToggle.tsx). It now follows selection directly. No surrounding refactor. Laziness Protocol kept the fix local; Fix Root Causes removed the effect that erased highlighting. Prove It Works and Test Behavior, Not Implementation guided the failing-before/passing-after DOM check. Tests, build, lint, and diff checks passed. Browser paint remains unverified. W…
+- turn.completed

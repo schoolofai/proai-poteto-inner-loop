@@ -1,0 +1,27 @@
+- thread.started
+- turn.started
+- agent: I’ll use poteto-mode to make the smallest fix that keeps the List/Preview highlight steady, verify the behavior, and write `spike/SPIKE_REPORT.md`.
+- command start: /bin/bash -lc "pwd; rg --files -g 'AGENTS.md' -g 'package.json' -g '*Toolbar*' -g '*Panel*' -g '*toggle*' -g '*Toggle*'"
+- command done (exit 0): /bin/bash -lc "pwd; rg --files -g 'AGENTS.md' -g 'package.json' -g '*Toolbar*' -g '*Panel*' -g '*toggle*' -g '*Toggle*'"
+- command start: /bin/bash -lc 'cat .agents/skills/poteto-mode/SKILL.md .agents/skills/poteto-mode/playbooks/bug-fix.md .agents/skills/principle-laziness-protocol/SKILL.md .agents/skills/principle-fix-root-causes/SKILL.md .agents/skills/principle-prove-it-…
+- command done (exit 0): /bin/bash -lc 'cat .agents/skills/poteto-mode/SKILL.md .agents/skills/poteto-mode/playbooks/bug-fix.md .agents/skills/principle-laziness-protocol/SKILL.md .agents/skills/principle-fix-root-causes/SKILL.md .agents/skills/principle-prove-it-…
+- command start: /bin/bash -lc "ls -a; cat package.json src/ViewToggle.tsx; rg -n 'ViewToggle|viewMode|selected|preview|Preview' src; rg --files .agents/skills | rg '(no-comments|unslop|technical-writing|control-ui|worker)'"
+- command done (exit 0): /bin/bash -lc "ls -a; cat package.json src/ViewToggle.tsx; rg -n 'ViewToggle|viewMode|selected|preview|Preview' src; rg --files .agents/skills | rg '(no-comments|unslop|technical-writing|control-ui|worker)'"
+- command start: /bin/bash -lc "cat .agents/skills/poteto-mode/worker.md .agents/skills/no-comments/SKILL.md; cat vite.config.ts; rg --files src; git status --short; cat CONTRIBUTING.md; rg -n -A10 -B5 'view-btn' src/*.css"
+- command done (exit 0): /bin/bash -lc "cat .agents/skills/poteto-mode/worker.md .agents/skills/no-comments/SKILL.md; cat vite.config.ts; rg --files src; git status --short; cat CONTRIBUTING.md; rg -n -A10 -B5 'view-btn' src/*.css"
+- command start: /bin/bash -lc "cat src/deferVisualClass.ts src/SidebarItem.tsx src/PriorityFilter.tsx src/App.tsx; cat .agents/skills/principle-test-behavior-not-implementation/SKILL.md; ls node_modules | rg 'playwright|puppeteer'"
+- command done (exit 1): /bin/bash -lc "cat src/deferVisualClass.ts src/SidebarItem.tsx src/PriorityFilter.tsx src/App.tsx; cat .agents/skills/principle-test-behavior-not-implementation/SKILL.md; ls node_modules | rg 'playwright|puppeteer'"
+- agent: The toggle already has the right selection state. Its effect removes the highlight class but never adds it back. Following Fix Root Causes and Laziness Protocol, I’ll replace that effect with the existing visual-state helper required by `CONTRIBUTING.md`, leaving surrounding components alone.
+- command start: /bin/bash -lc "cat > src/ViewToggle.spike.test.tsx <<'EOF' import { StrictMode } from 'react' import { act, cleanup, fireEvent, render, screen } from '@testing-library/react' import { afterEach, expect, test, vi } from 'vitest' import { Ap…
+- command done (exit 0): /bin/bash -lc "cat > src/ViewToggle.spike.test.tsx <<'EOF' import { StrictMode } from 'react' import { act, cleanup, fireEvent, render, screen } from '@testing-library/react' import { afterEach, expect, test, vi } from 'vitest' import { Ap…
+- command start: /bin/bash -lc 'cp src/ViewToggle.tsx /tmp/harbor-view-toggle-fixed.tsx git show HEAD:src/ViewToggle.tsx > src/ViewToggle.tsx npm test -- src/ViewToggle.spike.test.tsx cp /tmp/harbor-view-toggle-fixed.tsx src/ViewToggle.tsx'
+- command done (exit 0): /bin/bash -lc 'cp src/ViewToggle.tsx /tmp/harbor-view-toggle-fixed.tsx git show HEAD:src/ViewToggle.tsx > src/ViewToggle.tsx npm test -- src/ViewToggle.spike.test.tsx cp /tmp/harbor-view-toggle-fixed.tsx src/ViewToggle.tsx'
+- agent: The temporary DOM check fails on the original code and passes with the fix. It covers initial selection, repeated switches, rapid switches, and React Strict Mode. This confirms the highlight returns and stays selected after the shared helper’s existing delay. Browser-level flicker remains unverified because no browser control tool is available here.
+- command start: /bin/bash -lc 'npm test -- src/ViewToggle.spike.test.tsx rm src/ViewToggle.spike.test.tsx npm test'
+- command done (exit 0): /bin/bash -lc 'npm test -- src/ViewToggle.spike.test.tsx rm src/ViewToggle.spike.test.tsx npm test'
+- command start: /bin/bash -lc 'npm run typecheck npm run lint npm run build git diff --check git diff -- src/ViewToggle.tsx'
+- command done (exit 0): /bin/bash -lc 'npm run typecheck npm run lint npm run build git diff --check git diff -- src/ViewToggle.tsx'
+- command start: /bin/bash -lc "mkdir -p spike cat > spike/SPIKE_REPORT.md <<'EOF' # List/Preview highlight fix Keep the selected List/Preview toolbar highlight in place with the smallest change. ## Change and reason Changed only "'`src/ViewToggle.tsx` in …
+- command done (exit 0): /bin/bash -lc "mkdir -p spike cat > spike/SPIKE_REPORT.md <<'EOF' # List/Preview highlight fix Keep the selected List/Preview toolbar highlight in place with the smallest change. ## Change and reason Changed only "'`src/ViewToggle.tsx` in …
+- agent: Fixed [ViewToggle.tsx](/tmp/poteto-bs2/src/ViewToggle.tsx) to restore the selected highlight using the existing helper. No surrounding refactor. The interaction check failed before and passed after. Tests, typecheck, lint, and build passed. Browser flicker remains unverified; the helper retains its existing delay. Laziness Protocol kept the diff small. Fix Root Causes targeted the remove-only effect. Prove It Works …
+- turn.completed

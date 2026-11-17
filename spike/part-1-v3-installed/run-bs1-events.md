@@ -1,0 +1,31 @@
+- thread.started
+- turn.started
+- agent: I’ll use poteto-mode to fix the List/Preview highlight with the smallest change, verify it, and write `spike/SPIKE_REPORT.md`.
+- command start: /bin/bash -lc "pwd; rg --files -g 'AGENTS.md' -g 'package.json' -g '*Toolbar*' -g '*Panel*' -g 'SKILL.md' -g '*bug-fix*' -g '*unslop*' -g '*technical-writing*' | head -70"
+- command done (exit 0): /bin/bash -lc "pwd; rg --files -g 'AGENTS.md' -g 'package.json' -g '*Toolbar*' -g '*Panel*' -g 'SKILL.md' -g '*bug-fix*' -g '*unslop*' -g '*technical-writing*' | head -70"
+- command start: /bin/bash -lc 'cat .agents/skills/poteto-mode/SKILL.md .agents/skills/poteto-mode/playbooks/bug-fix.md .agents/skills/principle-laziness-protocol/SKILL.md .agents/skills/principle-fix-root-causes/SKILL.md .agents/skills/principle-prove-it-…
+- command done (exit 0): /bin/bash -lc 'cat .agents/skills/poteto-mode/SKILL.md .agents/skills/poteto-mode/playbooks/bug-fix.md .agents/skills/principle-laziness-protocol/SKILL.md .agents/skills/principle-fix-root-causes/SKILL.md .agents/skills/principle-prove-it-…
+- command start: /bin/bash -lc "ls -a; cat package.json; rg -n 'Preview|List|layoutId' src; find .. -name AGENTS.md -print; ls .agents/skills"
+- command done (exit 0): /bin/bash -lc "ls -a; cat package.json; rg -n 'Preview|List|layoutId' src; find .. -name AGENTS.md -print; ls .agents/skills"
+- command start: /bin/bash -lc 'cat src/ViewToggle.tsx src/deferVisualClass.ts; rg --files src; cat .agents/skills/poteto-mode/worker.md .agents/skills/no-comments/SKILL.md; git status --short'
+- command done (exit 0): /bin/bash -lc 'cat src/ViewToggle.tsx src/deferVisualClass.ts; rg --files src; cat .agents/skills/poteto-mode/worker.md .agents/skills/no-comments/SKILL.md; git status --short'
+- command start: /bin/bash -lc "cat vite.config.ts src/App.tsx src/formatCount.test.ts; rg -n 'view-btn|is-active' src/styles.css; cat .agents/skills/principle-test-behavior-not-implementation/SKILL.md; ls node_modules/.bin"
+- command done (exit 0): /bin/bash -lc "cat vite.config.ts src/App.tsx src/formatCount.test.ts; rg -n 'view-btn|is-active' src/styles.css; cat .agents/skills/principle-test-behavior-not-implementation/SKILL.md; ls node_modules/.bin"
+- agent: The toolbar has a `selected` boolean, but its effect removes the CSS class that draws the highlight. Nothing adds it back. I’ll make the class follow `selected` directly and check repeated switches in the app. Browser controls are unavailable here, so I’ll use the rendered DOM.
+- command start: /bin/bash -lc "cat > src/ViewToggle.test.tsx <<'EOF' import { cleanup, render, screen } from '@testing-library/react' import userEvent from '@testing-library/user-event' import { afterEach, expect, it } from 'vitest' import { App } from '.…
+- command done (exit 0): /bin/bash -lc "cat > src/ViewToggle.test.tsx <<'EOF' import { cleanup, render, screen } from '@testing-library/react' import userEvent from '@testing-library/user-event' import { afterEach, expect, it } from 'vitest' import { App } from '.…
+- command start: /bin/bash -lc 'cp src/ViewToggle.tsx /tmp/harbor-view-toggle-fixed.tsx git show HEAD:src/ViewToggle.tsx > src/ViewToggle.tsx npm test -- src/ViewToggle.test.tsx cp /tmp/harbor-view-toggle-fixed.tsx src/ViewToggle.tsx'
+- command done (exit 0): /bin/bash -lc 'cp src/ViewToggle.tsx /tmp/harbor-view-toggle-fixed.tsx git show HEAD:src/ViewToggle.tsx > src/ViewToggle.tsx npm test -- src/ViewToggle.test.tsx cp /tmp/harbor-view-toggle-fixed.tsx src/ViewToggle.tsx'
+- command start: /bin/bash -lc "git diff -- src/ViewToggle.tsx; sed -n '85,110p' src/styles.css"
+- command done (exit 0): /bin/bash -lc "git diff -- src/ViewToggle.tsx; sed -n '85,110p' src/styles.css"
+- command start: /bin/bash -lc 'npm run lint'
+- command start: /bin/bash -lc 'npm run build'
+- command start: /bin/bash -lc 'npm test'
+- command done (exit 0): /bin/bash -lc 'npm run lint'
+- command done (exit 0): /bin/bash -lc 'npm run build'
+- command done (exit 0): /bin/bash -lc 'npm test'
+- agent: The selected state now controls the highlight class directly. The regression check fails on the original code and passes with the fix. It covers repeated switches, clicking the selected button again, and an unrelated toolbar update. Tests, build, and lint pass. Laziness Protocol kept the fix inside `ViewToggle`. Fix Root Causes removed the effect that stripped the class. Prove It Works guided the before/after check.
+- command start: /bin/bash -lc "mkdir -p spike cat > spike/SPIKE_REPORT.md <<'EOF' # Stable List/Preview highlight Goal: keep the selected List/Preview highlight in place with the smallest change. ## Change and cause "'`src/ViewToggle.tsx` now derives the …
+- command done (exit 0): /bin/bash -lc "mkdir -p spike cat > spike/SPIKE_REPORT.md <<'EOF' # Stable List/Preview highlight Goal: keep the selected List/Preview highlight in place with the smallest change. ## Change and cause "'`src/ViewToggle.tsx` now derives the …
+- agent: Fixed the highlight by deriving its CSS class directly from the selected state and removing the effect that cleared it. No surrounding refactor. The regression check fails before the fix and passes after. Tests, build, and lint pass. Browser paint wasn’t visually verified. Laziness Protocol kept the change local; Fix Root Causes removed the faulty effect. Report written to [spike/SPIKE_REPORT.md](/tmp/poteto-bs1/spi…
+- turn.completed

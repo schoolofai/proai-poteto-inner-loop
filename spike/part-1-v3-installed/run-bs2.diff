@@ -1,0 +1,23 @@
+diff --git a/src/ViewToggle.tsx b/src/ViewToggle.tsx
+index 515cc21..ef9acc4 100644
+--- a/src/ViewToggle.tsx
++++ b/src/ViewToggle.tsx
+@@ -1,4 +1,5 @@
+ import { useEffect, useRef } from 'react'
++import { deferVisualClass } from './deferVisualClass'
+ 
+ export type ViewMode = 'list' | 'preview'
+ 
+@@ -37,11 +38,7 @@ function ViewButton({ option, selected, onSelect }: ButtonProps) {
+   const ref = useRef<HTMLButtonElement>(null)
+ 
+   useEffect(() => {
+-    const el = ref.current
+-    if (!el) return
+-    // Clear the previous highlight when the view changes so the next
+-    // paint is clean.
+-    el.classList.remove('is-active')
++    return deferVisualClass(ref.current, 'is-active', selected)
+   }, [selected])
+ 
+   return (

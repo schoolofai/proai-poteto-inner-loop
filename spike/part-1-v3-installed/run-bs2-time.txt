@@ -1,0 +1,4 @@
+elapsed_sec=87
+exec_exit=0
+start_iso=2026-11-17T08:51:24+00:00
+end_iso=2026-11-17T08:52:51+00:00

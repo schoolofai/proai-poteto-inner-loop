@@ -1,0 +1,9 @@
+- thread.started
+- turn.started
+- agent: I’ll find the toolbar, add the unread toggle, and run the project’s checks. 
+- command (exit 0): /bin/bash -lc "rg -n 'Priority only|priorityOnly' src; cat package.json"
+- command (exit 0): /bin/bash -lc 'cat src/App.tsx src/PriorityFilter.tsx src/visualState.test.tsx'
+- file change: update App.tsx
+- command (exit 0): /bin/bash -lc 'npm run check'
+- agent: Added “Unread only” next to “Priority only”. It toggles on and off, with `is-active` and `aria-pressed` reflecting its state immediately.  `npm run check` passed: tests, lint, and build.
+- turn.completed usage={'input_tokens': 70871, 'cached_input_tokens': 63872, 'cache_write_input_tokens': 0, 'output_tokens': 463, 'reasoning_output_tokens': 54}

@@ -1,0 +1,8 @@
+- thread.started
+- turn.started
+- agent: I’ll check the current code and make sure both classes come directly from React state, with no helper or timer. 
+- command (exit 0): /bin/bash -lc 'cat src/App.tsx && git diff -- src/App.tsx src/styles.css && cat .agents/skills/correct/SKILL.md'
+- agent: The current code already does this: both classes are set directly from `compact` in JSX. The Compact button uses no `deferVisualClass`, effect, or timer, so no rewrite is needed. I’ll rerun the checks to confirm the current version. 
+- command (exit 0): /bin/bash -lc 'npm run lint && npm test && npm run typecheck && npm run build && git diff --check'
+- agent: Verified: both `is-active` and `compact` already come directly from React state during render. No `deferVisualClass` or timer is used for Compact, so no changes were needed.  Lint, tests, typecheck, and build all pass.
+- turn.completed usage={'input_tokens': 173847, 'cached_input_tokens': 149376, 'cache_write_input_tokens': 0, 'output_tokens': 1044, 'reasoning_output_tokens': 99}

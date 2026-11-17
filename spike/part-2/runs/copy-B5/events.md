@@ -1,0 +1,10 @@
+- thread.started
+- turn.started
+- agent: I’ll copy the Priority filter pattern, add “Unread only” beside it, and run `npm run check`. 
+- command (exit 0): /bin/bash -lc "rg -n 'PriorityFilter|Priority only' . --glob '"'!package-lock.json'"' --glob '"'!node_modules/**'"'"
+- command (exit 0): /bin/bash -lc 'cat src/PriorityFilter.tsx src/App.tsx src/visualState.test.tsx; rg --files src; cat package.json'
+- file change: update App.tsx, add UnreadFilter.tsx
+- command (exit 0): /bin/bash -lc 'npm run check'
+- command (exit 0): /bin/bash -lc 'git diff --check; git diff --stat; git status --short'
+- agent: Added “Unread only” next to “Priority only” by copying `PriorityFilter`, including the same styling, toggle behavior, and pressed state.  `npm run check` passes.
+- turn.completed usage={'input_tokens': 91198, 'cached_input_tokens': 83456, 'cache_write_input_tokens': 0, 'output_tokens': 610, 'reasoning_output_tokens': 23}

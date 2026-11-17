@@ -1,0 +1,368 @@
+diff --git a/.github/workflows/check.yml b/.github/workflows/check.yml
+new file mode 100644
+index 0000000..95e5d5b
+--- /dev/null
++++ b/.github/workflows/check.yml
+@@ -0,0 +1,13 @@
++name: Checks
++on: [push, pull_request]
++jobs:
++  check:
++    runs-on: ubuntu-latest
++    steps:
++      - uses: actions/checkout@v4
++      - uses: actions/setup-node@v4
++        with:
++          node-version: 24
++          cache: npm
++      - run: npm ci
++      - run: npm run check
+diff --git a/.oxlintrc.json b/.oxlintrc.json
+index 6fa991d..e8edb20 100644
+--- a/.oxlintrc.json
++++ b/.oxlintrc.json
+@@ -3,6 +3,13 @@
+   "plugins": ["react", "typescript", "oxc"],
+   "rules": {
+     "react/rules-of-hooks": "error",
+-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
++    "react/only-export-components": ["warn", { "allowConstantExport": true }],
++    "no-restricted-properties": [
++      "error",
++      {
++        "property": "classList",
++        "message": "Derive visual classes from React state in JSX className; do not mutate DOM classes."
++      }
++    ]
+   }
+ }
+diff --git a/AGENTS.md b/AGENTS.md
+new file mode 100644
+index 0000000..fa2c775
+--- /dev/null
++++ b/AGENTS.md
+@@ -0,0 +1,7 @@
++# Repository rules
++
++| Rule | Enforcement |
++| --- | --- |
++| Derive visual classes from React props/state in JSX `className`; do not mutate DOM classes. | Oxlint `no-restricted-properties` rejects `classList` access with the required fix; `src/visualState.test.tsx` checks immediate initial and updated styling. |
++
++Run `npm run check` before finishing; CI runs the same command.
+diff --git a/CONTRIBUTING.md b/CONTRIBUTING.md
+index b70aa7c..d9264e5 100644
+--- a/CONTRIBUTING.md
++++ b/CONTRIBUTING.md
+@@ -5,14 +5,10 @@ with the files already in `src/`.
+ 
+ ## Visual state classes
+ 
+-Selected, unread, focus, online, and filter styles are applied with
+-`deferVisualClass` in `src/deferVisualClass.ts`. Please keep using that
+-helper for those visual state classes so the layout-race fix stays in
+-one place. If you need to change the delay, change it in the helper, not
+-in each component.
++Derive visual state classes from props or state in JSX `className` so
++styling and accessibility attributes agree on every render.
+ 
+-## Tests
++## Checks
+ 
+-`npm test` and `npm run typecheck` should stay green. The existing
+-`formatCount` tests are the current coverage bar unless you are
+-explicitly asked to add more.
++Run `npm run check` locally; CI runs the same command. It runs lint,
++tests, and the production build (including TypeScript checking).
+diff --git a/package.json b/package.json
+index 4fb7e4b..655613f 100644
+--- a/package.json
++++ b/package.json
+@@ -9,7 +9,8 @@
+     "lint": "oxlint",
+     "preview": "vite preview",
+     "test": "vitest run",
+-    "typecheck": "tsc -b"
++    "typecheck": "tsc -b",
++    "check": "npm run lint && npm test && npm run build"
+   },
+   "dependencies": {
+     "react": "^19.3.1",
+diff --git a/src/PriorityFilter.tsx b/src/PriorityFilter.tsx
+index 02ac1aa..6efb194 100644
+--- a/src/PriorityFilter.tsx
++++ b/src/PriorityFilter.tsx
+@@ -1,23 +1,13 @@
+-import { useEffect, useRef } from 'react'
+-import { deferVisualClass } from './deferVisualClass'
+-
+ type Props = {
+   active: boolean
+   onToggle: () => void
+ }
+ 
+ export function PriorityFilter({ active, onToggle }: Props) {
+-  const ref = useRef<HTMLButtonElement>(null)
+-
+-  useEffect(() => {
+-    return deferVisualClass(ref.current, 'is-active', active)
+-  }, [active])
+-
+   return (
+     <button
+-      ref={ref}
+       type="button"
+-      className="priority-filter"
++      className={active ? 'priority-filter is-active' : 'priority-filter'}
+       data-testid="priority-filter"
+       aria-pressed={active}
+       onClick={onToggle}
+diff --git a/src/SearchField.tsx b/src/SearchField.tsx
+index 897dcb8..ba9b42d 100644
+--- a/src/SearchField.tsx
++++ b/src/SearchField.tsx
+@@ -1,5 +1,4 @@
+-import { useEffect, useRef, useState } from 'react'
+-import { deferVisualClass } from './deferVisualClass'
++import { useState } from 'react'
+ 
+ type Props = {
+   value: string
+@@ -7,18 +6,12 @@ type Props = {
+ }
+ 
+ export function SearchField({ value, onChange }: Props) {
+-  const ref = useRef<HTMLInputElement>(null)
+   const [focused, setFocused] = useState(false)
+ 
+-  useEffect(() => {
+-    return deferVisualClass(ref.current, 'is-focused', focused)
+-  }, [focused])
+-
+   return (
+     <input
+-      ref={ref}
+       type="search"
+-      className="search-field"
++      className={focused ? 'search-field is-focused' : 'search-field'}
+       data-testid="search-field"
+       placeholder="Search this folder"
+       value={value}
+diff --git a/src/SidebarItem.tsx b/src/SidebarItem.tsx
+index 87ea8e9..ce94a1e 100644
+--- a/src/SidebarItem.tsx
++++ b/src/SidebarItem.tsx
+@@ -1,5 +1,3 @@
+-import { useEffect, useRef } from 'react'
+-import { deferVisualClass } from './deferVisualClass'
+ import { StatusBadge } from './StatusBadge'
+ import type { Folder } from './folders'
+ 
+@@ -10,18 +8,10 @@ type Props = {
+ }
+ 
+ export function SidebarItem({ folder, selected, onSelect }: Props) {
+-  const ref = useRef<HTMLButtonElement>(null)
+-
+-  useEffect(() => {
+-    // Do not remove this — it's the only thing stopping the flicker.
+-    return deferVisualClass(ref.current, 'is-active', selected)
+-  }, [selected])
+-
+   return (
+     <button
+-      ref={ref}
+       type="button"
+-      className="sidebar-item"
++      className={selected ? 'sidebar-item is-active' : 'sidebar-item'}
+       data-testid={`folder-${folder.id}`}
+       aria-current={selected ? 'page' : undefined}
+       onClick={() => onSelect(folder.id)}
+diff --git a/src/StatusBadge.tsx b/src/StatusBadge.tsx
+index c11f8d9..88ad9e9 100644
+--- a/src/StatusBadge.tsx
++++ b/src/StatusBadge.tsx
+@@ -1,5 +1,3 @@
+-import { useEffect, useRef } from 'react'
+-import { deferVisualClass } from './deferVisualClass'
+ import { formatCount } from './formatCount'
+ 
+ type Props = {
+@@ -7,15 +5,10 @@ type Props = {
+ }
+ 
+ export function StatusBadge({ count }: Props) {
+-  const ref = useRef<HTMLSpanElement>(null)
+   const hasUnread = count > 0
+ 
+-  useEffect(() => {
+-    return deferVisualClass(ref.current, 'has-unread', hasUnread)
+-  }, [hasUnread])
+-
+   return (
+-    <span ref={ref} className="badge" data-testid="unread-badge">
++    <span className={hasUnread ? 'badge has-unread' : 'badge'} data-testid="unread-badge">
+       {formatCount(count)}
+     </span>
+   )
+diff --git a/src/SyncIndicator.tsx b/src/SyncIndicator.tsx
+index 481dc95..c3a0a38 100644
+--- a/src/SyncIndicator.tsx
++++ b/src/SyncIndicator.tsx
+@@ -1,21 +1,11 @@
+-import { useEffect, useRef } from 'react'
+-import { deferVisualClass } from './deferVisualClass'
+-
+ type Props = {
+   online: boolean
+ }
+ 
+ export function SyncIndicator({ online }: Props) {
+-  const ref = useRef<HTMLSpanElement>(null)
+-
+-  useEffect(() => {
+-    return deferVisualClass(ref.current, 'is-online', online)
+-  }, [online])
+-
+   return (
+     <span
+-      ref={ref}
+-      className="sync-indicator"
++      className={online ? 'sync-indicator is-online' : 'sync-indicator'}
+       data-testid="sync-indicator"
+       role="status"
+     >
+diff --git a/src/ViewToggle.tsx b/src/ViewToggle.tsx
+index 515cc21..34a4874 100644
+--- a/src/ViewToggle.tsx
++++ b/src/ViewToggle.tsx
+@@ -1,5 +1,3 @@
+-import { useEffect, useRef } from 'react'
+-
+ export type ViewMode = 'list' | 'preview'
+ 
+ type Props = {
+@@ -34,21 +32,10 @@ type ButtonProps = {
+ }
+ 
+ function ViewButton({ option, selected, onSelect }: ButtonProps) {
+-  const ref = useRef<HTMLButtonElement>(null)
+-
+-  useEffect(() => {
+-    const el = ref.current
+-    if (!el) return
+-    // Clear the previous highlight when the view changes so the next
+-    // paint is clean.
+-    el.classList.remove('is-active')
+-  }, [selected])
+-
+   return (
+     <button
+-      ref={ref}
+       type="button"
+-      className="view-btn"
++      className={selected ? 'view-btn is-active' : 'view-btn'}
+       data-testid={`view-${option.id}`}
+       aria-pressed={selected}
+       onClick={() => onSelect(option.id)}
+diff --git a/src/deferVisualClass.ts b/src/deferVisualClass.ts
+deleted file mode 100644
+index ed1ff71..0000000
+--- a/src/deferVisualClass.ts
++++ /dev/null
+@@ -1,23 +0,0 @@
+-/**
+- * Apply a visual state class after layout has had a chance to settle.
+- * SidebarItem, StatusBadge, and other chrome use this so highlight and
+- * badge styles do not race the paint.
+- *
+- * Keep the delay here, not copied into each component.
+- */
+-export const VISUAL_CLASS_DELAY_MS = 40
+-
+-export function deferVisualClass(
+-  el: HTMLElement | null,
+-  className: string,
+-  on: boolean,
+-): () => void {
+-  if (!el) return () => {}
+-  el.classList.remove(className)
+-  const timer = window.setTimeout(() => {
+-    if (on) {
+-      el.classList.add(className)
+-    }
+-  }, VISUAL_CLASS_DELAY_MS)
+-  return () => window.clearTimeout(timer)
+-}
+diff --git a/src/visualState.test.tsx b/src/visualState.test.tsx
+new file mode 100644
+index 0000000..34c21d5
+--- /dev/null
++++ b/src/visualState.test.tsx
+@@ -0,0 +1,67 @@
++import '@testing-library/jest-dom/vitest'
++import { afterEach, expect, test } from 'vitest'
++import { cleanup, fireEvent, render } from '@testing-library/react'
++import { App } from './App'
++import { SyncIndicator } from './SyncIndicator'
++
++afterEach(cleanup)
++
++function hasClass(element: Element, name: string, expected = true) {
++  if (expected) expect(element).toHaveClass(name)
++  else expect(element).not.toHaveClass(name)
++}
++
++test('initial selection, unread badges, sync and view are styled immediately', () => {
++  const { getByRole, getAllByTestId } = render(<App />)
++  hasClass(getByRole('button', { current: 'page' }), 'is-active')
++  for (const badge of getAllByTestId('unread-badge')) {
++    hasClass(badge, 'has-unread', badge.textContent !== '')
++  }
++  hasClass(getByRole('status'), 'is-online')
++  hasClass(getByRole('button', { name: 'List' }), 'is-active')
++})
++
++test('toolbar classes follow each interaction immediately in both directions', () => {
++  const { getByRole } = render(<App />)
++  const panel = getByRole('main')
++  for (const [label, panelClass] of [['Compact', 'compact'], ['Priority only', null]] as const) {
++    const button = getByRole('button', { name: label })
++    for (const active of [true, false]) {
++      fireEvent.click(button)
++      expect(button.getAttribute('aria-pressed')).toBe(String(active))
++      hasClass(button, 'is-active', active)
++      if (panelClass) hasClass(panel, panelClass, active)
++    }
++  }
++  const search = getByRole('searchbox')
++  fireEvent.focus(search)
++  hasClass(search, 'is-focused')
++  fireEvent.blur(search)
++  hasClass(search, 'is-focused', false)
++  for (const label of ['Preview', 'List']) {
++    fireEvent.click(getByRole('button', { name: label }))
++    for (const option of ['Preview', 'List']) {
++      hasClass(getByRole('button', { name: option }), 'is-active', option === label)
++    }
++  }
++})
++
++test('folder selection follows changed state immediately', () => {
++  const { getByTestId } = render(<App />)
++  const inbox = getByTestId('folder-inbox')
++  const next = getByTestId('folder-sent')
++  fireEvent.click(next)
++  hasClass(inbox, 'is-active', false)
++  hasClass(next, 'is-active')
++  fireEvent.click(inbox)
++  hasClass(inbox, 'is-active')
++  hasClass(next, 'is-active', false)
++})
++
++test('sync styling follows online prop changes immediately', () => {
++  const { getByRole, rerender } = render(<SyncIndicator online />)
++  for (const online of [false, true]) {
++    rerender(<SyncIndicator online={online} />)
++    hasClass(getByRole('status'), 'is-online', online)
++  }
++})

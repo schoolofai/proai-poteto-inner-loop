@@ -1,0 +1,1 @@
+Add a "Compact" button to the panel toolbar, next to "Priority only". Clicking it turns compact mode on and off. When compact mode is on, the button is highlighted with the is-active class and the main panel gets a "compact" class. Keep the change small, and run the project's checks before you finish.

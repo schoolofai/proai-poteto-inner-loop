@@ -1,0 +1,1 @@
+When you switch between List and Preview in the panel toolbar, the selected highlight does not stay. Please make a quick fix with the smallest possible change so the highlight stays put.

@@ -1,0 +1,35 @@
+diff --git a/src/App.tsx b/src/App.tsx
+index 5fe23cf..e2a4591 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -10,6 +10,7 @@ export function App() {
+   const [selected, setSelected] = useState<FolderId>('inbox')
+   const [query, setQuery] = useState('')
+   const [priorityOnly, setPriorityOnly] = useState(false)
++  const [unreadOnly, setUnreadOnly] = useState(false)
+   const [compact, setCompact] = useState(false)
+   const [view, setView] = useState<ViewMode>('list')
+   const current = FOLDERS.find((folder) => folder.id === selected)!
+@@ -24,6 +25,14 @@ export function App() {
+             active={priorityOnly}
+             onToggle={() => setPriorityOnly((value) => !value)}
+           />
++          <button
++            type="button"
++            className={unreadOnly ? 'priority-filter is-active' : 'priority-filter'}
++            aria-pressed={unreadOnly}
++            onClick={() => setUnreadOnly((value) => !value)}
++          >
++            Unread only
++          </button>
+           <button
+             type="button"
+             className={compact ? 'priority-filter is-active' : 'priority-filter'}
+@@ -44,6 +53,7 @@ export function App() {
+         <p className="view-copy" data-testid="view-copy">
+           {view === 'list' ? 'Showing a list of messages.' : 'Showing the preview pane.'}
+           {priorityOnly ? ' Priority messages only.' : ''}
++          {unreadOnly ? ' Unread messages only.' : ''}
+           {query ? ` Filtered by “${query}”.` : ''}
+         </p>
+       </main>

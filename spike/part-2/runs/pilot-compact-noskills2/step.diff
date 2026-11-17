@@ -1,0 +1,67 @@
+diff --git a/src/App.tsx b/src/App.tsx
+index ec6db42..2a1d5e3 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -1,4 +1,5 @@
+-import { useState } from 'react'
++import { useEffect, useRef, useState } from 'react'
++import { deferVisualClass } from './deferVisualClass'
+ import { Sidebar } from './Sidebar'
+ import { SearchField } from './SearchField'
+ import { PriorityFilter } from './PriorityFilter'
+@@ -10,19 +11,34 @@ export function App() {
+   const [selected, setSelected] = useState<FolderId>('inbox')
+   const [query, setQuery] = useState('')
+   const [priorityOnly, setPriorityOnly] = useState(false)
++  const [compact, setCompact] = useState(false)
++  const compactButtonRef = useRef<HTMLButtonElement>(null)
+   const [view, setView] = useState<ViewMode>('list')
+   const current = FOLDERS.find((folder) => folder.id === selected)!
+ 
++  useEffect(() => {
++    return deferVisualClass(compactButtonRef.current, 'is-active', compact)
++  }, [compact])
++
+   return (
+     <div className="app">
+       <Sidebar selected={selected} onSelect={setSelected} />
+-      <main className="panel">
++      <main className={compact ? 'panel compact' : 'panel'}>
+         <header className="toolbar">
+           <SearchField value={query} onChange={setQuery} />
+           <PriorityFilter
+             active={priorityOnly}
+             onToggle={() => setPriorityOnly((value) => !value)}
+           />
++          <button
++            ref={compactButtonRef}
++            type="button"
++            className="compact-toggle"
++            aria-pressed={compact}
++            onClick={() => setCompact((value) => !value)}
++          >
++            Compact
++          </button>
+           <ViewToggle view={view} onChange={setView} />
+           <SyncIndicator online />
+         </header>
+diff --git a/src/styles.css b/src/styles.css
+index 11ae7b9..38a8a49 100644
+--- a/src/styles.css
++++ b/src/styles.css
+@@ -85,6 +85,7 @@ body { margin: 0; }
+ }
+ 
+ .priority-filter,
++.compact-toggle,
+ .view-btn {
+   border: 1px solid #c5d0dc;
+   border-radius: 8px;
+@@ -96,6 +97,7 @@ body { margin: 0; }
+ }
+ 
+ .priority-filter.is-active,
++.compact-toggle.is-active,
+ .view-btn.is-active {
+   background: #2f6fad;
+   border-color: #2f6fad;

@@ -1,0 +1,1 @@
+Add an "Unread only" button to the panel toolbar, next to "Priority only". Make it work exactly like the Priority only button: copy PriorityFilter and adapt it. Quick fix, smallest possible change.

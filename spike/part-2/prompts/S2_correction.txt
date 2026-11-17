@@ -1,0 +1,1 @@
+That works, but please don't use deferVisualClass or any timer for this. The highlight and the compact class should come straight from state when the component renders. Please redo it that way.

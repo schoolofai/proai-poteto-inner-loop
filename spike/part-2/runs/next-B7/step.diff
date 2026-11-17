@@ -1,0 +1,79 @@
+diff --git a/src/App.tsx b/src/App.tsx
+index c67cb17..ef58109 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -10,6 +10,7 @@ export function App() {
+   const [selected, setSelected] = useState<FolderId>('inbox')
+   const [query, setQuery] = useState('')
+   const [priorityOnly, setPriorityOnly] = useState(false)
++  const [unreadOnly, setUnreadOnly] = useState(false)
+   const [compact, setCompact] = useState(false)
+   const [view, setView] = useState<ViewMode>('list')
+   const current = FOLDERS.find((folder) => folder.id === selected)!
+@@ -24,6 +25,14 @@ export function App() {
+             active={priorityOnly}
+             onToggle={() => setPriorityOnly((value) => !value)}
+           />
++          <button
++            type="button"
++            className={unreadOnly ? 'unread-filter is-active' : 'unread-filter'}
++            aria-pressed={unreadOnly}
++            onClick={() => setUnreadOnly((value) => !value)}
++          >
++            Unread only
++          </button>
+           <button
+             type="button"
+             className={compact ? 'compact-toggle is-active' : 'compact-toggle'}
+@@ -44,6 +53,7 @@ export function App() {
+         <p className="view-copy" data-testid="view-copy">
+           {view === 'list' ? 'Showing a list of messages.' : 'Showing the preview pane.'}
+           {priorityOnly ? ' Priority messages only.' : ''}
++          {unreadOnly ? ' Unread messages only.' : ''}
+           {query ? ` Filtered by “${query}”.` : ''}
+         </p>
+       </main>
+diff --git a/src/styles.css b/src/styles.css
+index 38a8a49..d3263ee 100644
+--- a/src/styles.css
++++ b/src/styles.css
+@@ -85,6 +85,7 @@ body { margin: 0; }
+ }
+ 
+ .priority-filter,
++.unread-filter,
+ .compact-toggle,
+ .view-btn {
+   border: 1px solid #c5d0dc;
+@@ -97,6 +98,7 @@ body { margin: 0; }
+ }
+ 
+ .priority-filter.is-active,
++.unread-filter.is-active,
+ .compact-toggle.is-active,
+ .view-btn.is-active {
+   background: #2f6fad;
+diff --git a/src/visualState.test.tsx b/src/visualState.test.tsx
+index 34c21d5..369c472 100644
+--- a/src/visualState.test.tsx
++++ b/src/visualState.test.tsx
+@@ -24,13 +24,18 @@ test('initial selection, unread badges, sync and view are styled immediately', (
+ test('toolbar classes follow each interaction immediately in both directions', () => {
+   const { getByRole } = render(<App />)
+   const panel = getByRole('main')
+-  for (const [label, panelClass] of [['Compact', 'compact'], ['Priority only', null]] as const) {
++  for (const [label, panelClass] of [['Compact', 'compact'], ['Priority only', null], ['Unread only', null]] as const) {
+     const button = getByRole('button', { name: label })
++    expect(button).toHaveAttribute('aria-pressed', 'false')
++    hasClass(button, 'is-active', false)
+     for (const active of [true, false]) {
+       fireEvent.click(button)
+       expect(button.getAttribute('aria-pressed')).toBe(String(active))
+       hasClass(button, 'is-active', active)
+       if (panelClass) hasClass(panel, panelClass, active)
++      if (label === 'Unread only') {
++        expect(getByRole('main').textContent?.includes('Unread messages only.')).toBe(active)
++      }
+     }
+   }
+   const search = getByRole('searchbox')

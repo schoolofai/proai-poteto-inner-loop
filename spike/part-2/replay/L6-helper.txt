@@ -1,0 +1,5 @@
+# L6-helper: past mistake from next-A6 (helper variant) applied to e6d745208e485af90be57cd830b571ac7e84c4bc (agents_line=1)
+## npm run test -> exit 0
+## npm run typecheck -> exit 0
+## npm run lint -> exit 0
+## npm run build -> exit 0

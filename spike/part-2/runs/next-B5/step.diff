@@ -1,0 +1,58 @@
+diff --git a/src/App.tsx b/src/App.tsx
+index 5fe23cf..43af1a2 100644
+--- a/src/App.tsx
++++ b/src/App.tsx
+@@ -10,6 +10,7 @@ export function App() {
+   const [selected, setSelected] = useState<FolderId>('inbox')
+   const [query, setQuery] = useState('')
+   const [priorityOnly, setPriorityOnly] = useState(false)
++  const [unreadOnly, setUnreadOnly] = useState(false)
+   const [compact, setCompact] = useState(false)
+   const [view, setView] = useState<ViewMode>('list')
+   const current = FOLDERS.find((folder) => folder.id === selected)!
+@@ -20,6 +21,14 @@ export function App() {
+       <main className={compact ? 'panel compact' : 'panel'}>
+         <header className="toolbar">
+           <SearchField value={query} onChange={setQuery} />
++          <button
++            type="button"
++            className={unreadOnly ? 'priority-filter is-active' : 'priority-filter'}
++            aria-pressed={unreadOnly}
++            onClick={() => setUnreadOnly((value) => !value)}
++          >
++            Unread only
++          </button>
+           <PriorityFilter
+             active={priorityOnly}
+             onToggle={() => setPriorityOnly((value) => !value)}
+@@ -44,6 +53,7 @@ export function App() {
+         <p className="view-copy" data-testid="view-copy">
+           {view === 'list' ? 'Showing a list of messages.' : 'Showing the preview pane.'}
+           {priorityOnly ? ' Priority messages only.' : ''}
++          {unreadOnly ? ' Unread messages only.' : ''}
+           {query ? ` Filtered by “${query}”.` : ''}
+         </p>
+       </main>
+diff --git a/src/visualState.test.tsx b/src/visualState.test.tsx
+index 38e35b5..43462af 100644
+--- a/src/visualState.test.tsx
++++ b/src/visualState.test.tsx
+@@ -6,6 +6,18 @@ import { SyncIndicator } from './SyncIndicator'
+ 
+ afterEach(cleanup)
+ 
++it('renders unread highlighting immediately on and off', () => {
++  render(<App />)
++  const button = screen.getByRole('button', { name: 'Unread only' })
++  expect(button.nextElementSibling?.textContent).toBe('Priority only')
++  for (const active of [false, true, false, true]) {
++    if (active !== (button.getAttribute('aria-pressed') === 'true')) fireEvent.click(button)
++    expect(button.getAttribute('aria-pressed')).toBe(String(active))
++    expect(button.classList.contains('is-active')).toBe(active)
++    expect(screen.getByTestId('view-copy').textContent?.includes('Unread messages only.')).toBe(active)
++  }
++})
++
+ it('renders compact classes immediately on every toggle', () => {
+   render(<App />)
+   const button = screen.getByRole('button', { name: 'Compact' })

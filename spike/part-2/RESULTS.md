@@ -84,5 +84,6 @@ Don't claim the `AGENTS.md` line failed in these runs; it didn't. Don't claim ev
 
 ## Tags
 
-- `step-2-start`: `step-0-slop-v2` + skills + the Compact button after the one chat correction (c7 steps 1–2).
+- `step-2-start`: `step-0-slop-v2` + `.agents/skills` (the run base for every chain).
+- `step-2-chat-fix`: c7 after session 1 and the one chat correction.
 - `step-2-correct`: c7's `$correct` result, unchanged.

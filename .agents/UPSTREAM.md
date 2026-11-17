@@ -22,6 +22,7 @@ Whole official skill folders, including playbooks and other files that ship insi
 - `poteto-help`
 - `setup-pstack` (official Cursor / Claude Code setup; not required to start Codex in this repo)
 - `no-comments` (used in the Part 1 experiment prompt)
+- `correct` (used in the Part 2 experiment)
 - every official `principle-*` skill, because `poteto-mode` tells the agent to read each principle leaf it applies
 
 This is not the full pstack plugin. Skills such as `arena`, `swarm`, and `interrogate` are not vendored here.

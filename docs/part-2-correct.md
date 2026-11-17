@@ -1,6 +1,6 @@
 # Part 2: Every correction becomes a check
 
-Companion notes for Part 2 of the ProAI Clips series *Apply Viral Poteto AIE Talk Patterns One Skill at a Time*: install steps, full quotes, source links, every prompt, and the experiment transcripts. Video link coming soon.
+Companion notes for Part 2 of the ProAI Clips series *Apply Viral Poteto AIE Talk Patterns One Skill at a Time*: install steps, full quotes, source links, every prompt, and the experiment transcripts. Watch the video: [Part 2 on YouTube](https://youtu.be/C7jhDEtBQIE).
 
 **pstack version used in the video:** 0.15.43, as published on [cursor/plugins](https://github.com/cursor/plugins/tree/main/pstack). The vendored `.agents/skills/correct/SKILL.md` is byte-identical to upstream `main` at the time of recording.
 

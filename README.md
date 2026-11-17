@@ -1,6 +1,9 @@
 # Harbor Desk: harden the inner loop first
 
-Starter repo for **Apply Viral Poteto AIE Talk Patterns One Skill at a Time – Part 1: Harden the Inner Loop First** (ProAI Clips). Watch the video: [Part 1 on YouTube](https://youtu.be/voDkLapQyxE).
+Starter repo for **Apply Viral Poteto AIE Talk Patterns One Skill at a Time** (ProAI Clips).
+
+- **Part 1: Harden the Inner Loop First.** Watch the video: [Part 1 on YouTube](https://youtu.be/voDkLapQyxE).
+- **Part 2: Every Correction Becomes a Check.** Watch the video: [Part 2 on YouTube](https://youtu.be/C7jhDEtBQIE).
 
 Harbor Desk is a small React + TypeScript mail app with a messy house style planted on purpose: a shared helper that waits 40 ms and then toggles a visual class, a contributing note that tells you to keep using it, and a List / Preview toggle whose highlight does not stay. The video asks a coding agent for a "quick fix" with and without Lauren Tan's [pstack](https://github.com/cursor/plugins/tree/main/pstack) skills installed, shows that a messy repo can beat even the skill, then locks the lesson into the repo with a check.
 
@@ -41,6 +44,17 @@ On `step-1-inner-loop-v2`, visual classes come from props and the whole `npm run
 | `step-1-inner-loop-v2` | Visual classes derived from props, behavior tests, and `npm run verify` with a check that bans delayed class timers and `deferVisualClass`. |
 | `step-0-slop` | An earlier, simpler trap: sidebar timers and an untested sidebar path. |
 | `step-1-inner-loop` | The fix for that earlier trap. |
+| `step-2-start` | Part 2 starting point: `step-0-slop-v2` plus `.agents/skills` (pstack 0.15.43, including `correct`). |
+| `step-2-chat-fix` | The Compact button after one correction in chat. Five components still use the 40 ms helper. |
+| `step-2-correct` | The `$correct` result shown in the Part 2 video: helper removed, lint rule, behaviour tests, rule table and CI. |
+
+For Part 2, start from `step-2-start`, add a Compact button, correct it if it copies `deferVisualClass`, then type `$correct` in the same chat. Compare with `step-2-correct`. Full notes: [docs/part-2-correct.md](docs/part-2-correct.md).
+
+```bash
+git checkout step-2-start
+npm install
+codex
+```
 
 ## The experiment
 
@@ -119,7 +133,7 @@ In Claude Code:
 /pstack:setup-pstack
 ```
 
-Full install notes, the talk quotes with YouTube times, and the source links are in [docs/part-1-inner-loop.md](docs/part-1-inner-loop.md).
+Full install notes, the talk quotes with YouTube times, and the source links are in [docs/part-1-inner-loop.md](docs/part-1-inner-loop.md) and [docs/part-2-correct.md](docs/part-2-correct.md).
 
 ## Sources
 

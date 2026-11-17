@@ -1,5 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
-import { deferVisualClass } from './deferVisualClass'
+import { useState } from 'react'
 import { Sidebar } from './Sidebar'
 import { SearchField } from './SearchField'
 import { PriorityFilter } from './PriorityFilter'
@@ -12,24 +11,13 @@ export function App() {
   const [query, setQuery] = useState('')
   const [priorityOnly, setPriorityOnly] = useState(false)
   const [compact, setCompact] = useState(false)
-  const panelRef = useRef<HTMLElement>(null)
-  const compactRef = useRef<HTMLButtonElement>(null)
   const [view, setView] = useState<ViewMode>('list')
   const current = FOLDERS.find((folder) => folder.id === selected)!
-
-  useEffect(() => {
-    const clearPanel = deferVisualClass(panelRef.current, 'compact', compact)
-    const clearButton = deferVisualClass(compactRef.current, 'is-active', compact)
-    return () => {
-      clearPanel()
-      clearButton()
-    }
-  }, [compact])
 
   return (
     <div className="app">
       <Sidebar selected={selected} onSelect={setSelected} />
-      <main ref={panelRef} className="panel">
+      <main className={compact ? 'panel compact' : 'panel'}>
         <header className="toolbar">
           <SearchField value={query} onChange={setQuery} />
           <PriorityFilter
@@ -37,9 +25,8 @@ export function App() {
             onToggle={() => setPriorityOnly((value) => !value)}
           />
           <button
-            ref={compactRef}
             type="button"
-            className="compact-toggle"
+            className={compact ? 'compact-toggle is-active' : 'compact-toggle'}
             aria-pressed={compact}
             onClick={() => setCompact((value) => !value)}
           >
